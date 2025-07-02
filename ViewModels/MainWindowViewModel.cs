@@ -1,46 +1,45 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Threading.Tasks;
 using MomotetsuGame.Core.Entities;
 using MomotetsuGame.Core.ValueObjects;
 using MomotetsuGame.Core.Enums;
+using MomotetsuGame.Core.Interfaces;
+using MomotetsuGame.Application.GameLogic;
+using MomotetsuGame.Application.DependencyInjection;
+using MomotetsuGame.Infrastructure.Data;
 
 namespace MomotetsuGame.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        // サービス
+        private readonly IGameManager _gameManager;
+        private readonly IEventBus _eventBus;
+        private readonly IDialogService _dialogService;
+        private readonly IMessageService _messageService;
+        private readonly ISaveDataService _saveDataService;
+        private readonly IMasterDataLoader _masterDataLoader;
+
         // プライベートフィールド
-        private int _currentYear = 1;
-        private int _currentMonth = 4;
-        private string _destination = "東京";
+        private GameState? _gameState;
         private string _currentMessage = "ゲームを開始してください";
-        private bool _canRollDice = true;
+        private bool _canRollDice = false;
         private bool _canEndTurn = false;
+        private bool _isLoading = false;
 
         // プロパティ
         public ObservableCollection<StationViewModel> Stations { get; set; }
         public ObservableCollection<PlayerViewModel> Players { get; set; }
         public ObservableCollection<PlayerInfoViewModel> PlayerInfos { get; set; }
 
-        public int CurrentYear
-        {
-            get => _currentYear;
-            set => SetProperty(ref _currentYear, value);
-        }
-
-        public int CurrentMonth
-        {
-            get => _currentMonth;
-            set => SetProperty(ref _currentMonth, value);
-        }
-
-        public string Destination
-        {
-            get => _destination;
-            set => SetProperty(ref _destination, value);
-        }
+        public int CurrentYear => _gameState?.CurrentYear ?? 1;
+        public int CurrentMonth => _gameState?.CurrentMonth ?? 4;
+        public string Destination => _gameState?.Destination?.Name ?? "未設定";
 
         public string CurrentMessage
         {
@@ -60,6 +59,12 @@ namespace MomotetsuGame.ViewModels
             set => SetProperty(ref _canEndTurn, value);
         }
 
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => SetProperty(ref _isLoading, value);
+        }
+
         // コマンド
         public ICommand RollDiceCommand { get; private set; }
         public ICommand EndTurnCommand { get; private set; }
@@ -70,9 +75,17 @@ namespace MomotetsuGame.ViewModels
         // コンストラクタ
         public MainWindowViewModel()
         {
+            // サービスをDIコンテナから取得
+            _gameManager = ServiceContainer.GetService<IGameManager>();
+            _eventBus = ServiceContainer.GetService<IEventBus>();
+            _dialogService = ServiceContainer.GetService<IDialogService>();
+            _messageService = ServiceContainer.GetService<IMessageService>();
+            _saveDataService = ServiceContainer.GetService<ISaveDataService>();
+            _masterDataLoader = new MasterDataLoader();
+
             InitializeCollections();
             InitializeCommands();
-            InitializeSampleData();
+            SubscribeToEvents();
         }
 
         private void InitializeCollections()
@@ -84,118 +97,382 @@ namespace MomotetsuGame.ViewModels
 
         private void InitializeCommands()
         {
-            RollDiceCommand = new RelayCommand(RollDice, () => CanRollDice);
-            EndTurnCommand = new RelayCommand(EndTurn, () => CanEndTurn);
-            SaveGameCommand = new RelayCommand(SaveGame);
-            LoadGameCommand = new RelayCommand(LoadGame);
+            RollDiceCommand = new RelayCommand(async () => await RollDiceAsync(), () => CanRollDice && !IsLoading);
+            EndTurnCommand = new RelayCommand(async () => await EndTurnAsync(), () => CanEndTurn && !IsLoading);
+            SaveGameCommand = new RelayCommand(async () => await SaveGameAsync(), () => _gameState != null && !IsLoading);
+            LoadGameCommand = new RelayCommand(async () => await LoadGameAsync(), () => !IsLoading);
             ShowSettingsCommand = new RelayCommand(ShowSettings);
         }
 
-        private void InitializeSampleData()
+        private void SubscribeToEvents()
         {
-            // サンプル駅データ
-            Stations.Add(new StationViewModel { X = 400, Y = 300, ShortName = "東京", TypeColor = "#FF0000" });
-            Stations.Add(new StationViewModel { X = 350, Y = 280, ShortName = "新宿", TypeColor = "#00FF00" });
-            Stations.Add(new StationViewModel { X = 450, Y = 320, ShortName = "品川", TypeColor = "#0000FF" });
-            Stations.Add(new StationViewModel { X = 300, Y = 250, ShortName = "池袋", TypeColor = "#FFFF00" });
-            Stations.Add(new StationViewModel { X = 500, Y = 350, ShortName = "横浜", TypeColor = "#FF00FF" });
-
-            // サンプルプレイヤーデータ
-            Players.Add(new PlayerViewModel { PositionX = 400, PositionY = 300, Name = "プレイヤー1" });
-
-            // プレイヤー情報
-            PlayerInfos.Add(new PlayerInfoViewModel
-            {
-                Name = "プレイヤー1",
-                Money = "1億円",
-                TotalAssets = "1億円",
-                Rank = 1,
-                BorderColor = "#0000FF"
-            });
-
-            PlayerInfos.Add(new PlayerInfoViewModel
-            {
-                Name = "COM1",
-                Money = "1億円",
-                TotalAssets = "1億円",
-                Rank = 2,
-                BorderColor = "#FF0000"
-            });
-
-            PlayerInfos.Add(new PlayerInfoViewModel
-            {
-                Name = "COM2",
-                Money = "1億円",
-                TotalAssets = "1億円",
-                Rank = 3,
-                BorderColor = "#00FF00"
-            });
-
-            PlayerInfos.Add(new PlayerInfoViewModel
-            {
-                Name = "COM3",
-                Money = "1億円",
-                TotalAssets = "1億円",
-                Rank = 4,
-                BorderColor = "#FFFF00"
-            });
+            // ゲームイベントの購読
+            _eventBus.Subscribe<TurnStartedEvent>(OnTurnStarted);
+            _eventBus.Subscribe<DiceRolledEvent>(OnDiceRolled);
+            _eventBus.Subscribe<PlayerMovedEvent>(OnPlayerMoved);
+            _eventBus.Subscribe<PropertyPurchasedEvent>(OnPropertyPurchased);
+            _eventBus.Subscribe<TurnEndedEvent>(OnTurnEnded);
+            _eventBus.Subscribe<GameStateChangedEvent>(OnGameStateChanged);
+            _eventBus.Subscribe<MessageEvent>(OnMessage);
         }
 
-        // コマンドハンドラ
-        private void RollDice()
+        // イベントハンドラ
+        private void OnTurnStarted(TurnStartedEvent e)
         {
-            CurrentMessage = "サイコロを振りました！";
-            CanRollDice = false;
-            CanEndTurn = true;
-        }
-
-        private void EndTurn()
-        {
-            CurrentMessage = "ターンを終了しました。";
-            CanRollDice = true;
+            CurrentMessage = $"{e.Player.Name}のターンです";
+            CanRollDice = !e.Player.IsComputer;
             CanEndTurn = false;
-            CurrentMonth++;
-            if (CurrentMonth > 12)
+            UpdateUI();
+        }
+
+        private void OnDiceRolled(DiceRolledEvent e)
+        {
+            CurrentMessage = $"{e.Player.Name}がサイコロを振りました: {e.Result}";
+            CanRollDice = false;
+        }
+
+        private void OnPlayerMoved(PlayerMovedEvent e)
+        {
+            CurrentMessage = $"{e.Player.Name}が{e.To.Name}に到着しました";
+            UpdatePlayerPosition(e.Player);
+        }
+
+        private void OnPropertyPurchased(PropertyPurchasedEvent e)
+        {
+            CurrentMessage = $"{e.Player.Name}が{e.Property.Name}を購入しました！";
+            _messageService.ShowSuccess(CurrentMessage);
+        }
+
+        private void OnTurnEnded(TurnEndedEvent e)
+        {
+            CanEndTurn = false;
+            UpdateUI();
+        }
+
+        private void OnGameStateChanged(GameStateChangedEvent e)
+        {
+            _gameState = e.GameState;
+            UpdateUI();
+        }
+
+        private void OnMessage(MessageEvent e)
+        {
+            CurrentMessage = e.Message;
+            if (e.Type == MessageType.Error)
             {
-                CurrentMonth = 1;
-                CurrentYear++;
+                _messageService.ShowError(e.Message);
             }
         }
 
-        private void SaveGame()
+        // コマンドハンドラ
+        private async Task RollDiceAsync()
         {
-            CurrentMessage = "ゲームをセーブしました。";
+            if (_gameState == null) return;
+
+            IsLoading = true;
+            try
+            {
+                var currentPlayer = _gameState.GetCurrentPlayer();
+                await _gameManager.RollDiceAsync(currentPlayer);
+
+                // プレイヤーが移動した後の処理
+                CanRollDice = false;
+                CanEndTurn = true;
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowErrorAsync($"エラーが発生しました: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
-        private void LoadGame()
+        private async Task EndTurnAsync()
         {
-            CurrentMessage = "ゲームをロードしました。";
+            if (_gameState == null) return;
+
+            IsLoading = true;
+            try
+            {
+                await _gameManager.EndTurnAsync();
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowErrorAsync($"エラーが発生しました: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task SaveGameAsync()
+        {
+            if (_gameState == null) return;
+
+            IsLoading = true;
+            try
+            {
+                var saveId = await _dialogService.ShowSelectionAsync(
+                    "セーブスロットを選択してください",
+                    new[] { "セーブ1", "セーブ2", "セーブ3" },
+                    "セーブ"
+                );
+
+                if (saveId != null)
+                {
+                    await _saveDataService.SaveAsync(saveId, _gameState);
+                    _messageService.ShowSuccess("セーブしました");
+                }
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowErrorAsync($"セーブに失敗しました: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private async Task LoadGameAsync()
+        {
+            IsLoading = true;
+            try
+            {
+                var saveDataList = await _saveDataService.GetSaveDataListAsync();
+                if (!saveDataList.Any())
+                {
+                    await _dialogService.ShowInformationAsync("セーブデータがありません");
+                    return;
+                }
+
+                // セーブデータ選択（簡易版）
+                var selectedSave = saveDataList.FirstOrDefault();
+                if (selectedSave != null)
+                {
+                    var gameState = await _saveDataService.LoadAsync<GameState>(selectedSave.Id);
+                    if (gameState != null)
+                    {
+                        _gameState = gameState;
+                        _gameManager.LoadGameState(gameState);
+                        UpdateUI();
+                        _messageService.ShowSuccess("ロードしました");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowErrorAsync($"ロードに失敗しました: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         private void ShowSettings()
         {
             CurrentMessage = "設定画面を開きます。";
+            // TODO: 設定画面の実装
         }
 
         /// <summary>
-        /// Start a new game using the specified settings.
+        /// 新しいゲームを開始
         /// </summary>
-        public void StartNewGame(GameSettings settings)
+        public async Task StartNewGameAsync(GameSettings settings)
         {
             if (settings == null) throw new ArgumentNullException(nameof(settings));
 
-            CurrentYear = 1;
-            CurrentMonth = 4;
-            Destination = string.Empty;
-            CurrentMessage = "ゲームを開始しました。";
-
-            if (PlayerInfos.Count > 0)
+            IsLoading = true;
+            try
             {
-                PlayerInfos[0].Name = settings.PlayerName;
+                // マスターデータを読み込む
+                var stationNetwork = await _masterDataLoader.LoadStationNetworkAsync();
+                var properties = await _masterDataLoader.LoadPropertiesAsync();
+                var cardMaster = await _masterDataLoader.LoadCardMasterAsync();
+
+                // 駅と物件を関連付け
+                _masterDataLoader.AssociatePropertiesWithStations(stationNetwork, properties);
+
+                // ゲームを初期化
+                await _gameManager.InitializeGameAsync(settings);
+                _gameState = _gameManager.GetCurrentGameState();
+
+                // 駅ネットワークを設定
+                if (_gameState != null)
+                {
+                    _gameState.StationNetwork = stationNetwork;
+                }
+
+                UpdateUI();
+                CurrentMessage = "ゲームを開始しました。";
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowErrorAsync($"ゲームの開始に失敗しました: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 
+        // UI更新メソッド
+        private void UpdateUI()
+        {
+            if (_gameState == null) return;
+
+            UpdateStations();
+            UpdatePlayers();
+            UpdatePlayerInfos();
+
+            OnPropertyChanged(nameof(CurrentYear));
+            OnPropertyChanged(nameof(CurrentMonth));
+            OnPropertyChanged(nameof(Destination));
+        }
+
+        private void UpdateStations()
+        {
+            Stations.Clear();
+
+            if (_gameState?.StationNetwork == null) return;
+
+            foreach (var station in _gameState.StationNetwork.GetAllStations())
+            {
+                var vm = new StationViewModel
+                {
+                    X = station.Coordinate.X,
+                    Y = station.Coordinate.Y,
+                    ShortName = station.Name.Length > 3 ? station.Name.Substring(0, 3) : station.Name,
+                    TypeColor = GetStationColor(station.Type)
+                };
+                Stations.Add(vm);
+            }
+        }
+
+        private void UpdatePlayers()
+        {
+            Players.Clear();
+
+            if (_gameState?.Players == null) return;
+
+            foreach (var player in _gameState.Players)
+            {
+                if (player.CurrentStation != null)
+                {
+                    var vm = new PlayerViewModel
+                    {
+                        PositionX = player.CurrentStation.Coordinate.X,
+                        PositionY = player.CurrentStation.Coordinate.Y,
+                        Name = player.Name
+                    };
+                    Players.Add(vm);
+                }
+            }
+        }
+
+        private void UpdatePlayerInfos()
+        {
+            PlayerInfos.Clear();
+
+            if (_gameState?.Players == null) return;
+
+            foreach (var player in _gameState.Players)
+            {
+                var vm = new PlayerInfoViewModel
+                {
+                    Name = player.Name,
+                    Money = player.CurrentMoney.ToString(),
+                    TotalAssets = player.TotalAssets.ToString(),
+                    Rank = player.Rank,
+                    BorderColor = GetPlayerColor(player.Color)
+                };
+                PlayerInfos.Add(vm);
+            }
+        }
+
+        private void UpdatePlayerPosition(Player player)
+        {
+            var playerVm = Players.FirstOrDefault(p => p.Name == player.Name);
+            if (playerVm != null && player.CurrentStation != null)
+            {
+                playerVm.PositionX = player.CurrentStation.Coordinate.X;
+                playerVm.PositionY = player.CurrentStation.Coordinate.Y;
+            }
+        }
+
+        private string GetStationColor(StationType type)
+        {
+            return type switch
+            {
+                StationType.Property => "#FF0000",
+                StationType.Plus => "#00FF00",
+                StationType.Minus => "#0000FF",
+                StationType.CardShop => "#FFFF00",
+                StationType.NiceCard => "#FF00FF",
+                StationType.SuperCard => "#00FFFF",
+                _ => "#808080"
+            };
+        }
+
+        private string GetPlayerColor(PlayerColor color)
+        {
+            return color switch
+            {
+                PlayerColor.Blue => "#0000FF",
+                PlayerColor.Red => "#FF0000",
+                PlayerColor.Green => "#00FF00",
+                PlayerColor.Yellow => "#FFFF00",
+                PlayerColor.Purple => "#800080",
+                PlayerColor.Orange => "#FFA500",
+                PlayerColor.Pink => "#FFC0CB",
+                PlayerColor.Brown => "#A52A2A",
+                _ => "#808080"
+            };
+        }
+
         // INotifyPropertyChanged実装
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            CommandManager.InvalidateRequerySuggested();
+            return true;
+        }
+    }
+
+    // ViewModelクラスは変更なし
+    public class StationViewModel : INotifyPropertyChanged
+    {
+        private double _x;
+        private double _y;
+
+        public double X
+        {
+            get => _x;
+            set => SetProperty(ref _x, value);
+        }
+
+        public double Y
+        {
+            get => _y;
+            set => SetProperty(ref _y, value);
+        }
+
+        public string ShortName { get; set; }
+        public string TypeColor { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -212,24 +489,41 @@ namespace MomotetsuGame.ViewModels
         }
     }
 
-    // 駅ViewModel
-    public class StationViewModel
+    public class PlayerViewModel : INotifyPropertyChanged
     {
-        public double X { get; set; }
-        public double Y { get; set; }
-        public string ShortName { get; set; }
-        public string TypeColor { get; set; }
-    }
+        private double _positionX;
+        private double _positionY;
 
-    // プレイヤーViewModel
-    public class PlayerViewModel
-    {
-        public double PositionX { get; set; }
-        public double PositionY { get; set; }
+        public double PositionX
+        {
+            get => _positionX;
+            set => SetProperty(ref _positionX, value);
+        }
+
+        public double PositionY
+        {
+            get => _positionY;
+            set => SetProperty(ref _positionY, value);
+        }
+
         public string Name { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
     }
 
-    // プレイヤー情報ViewModel
     public class PlayerInfoViewModel
     {
         public string Name { get; set; }
@@ -239,7 +533,22 @@ namespace MomotetsuGame.ViewModels
         public string BorderColor { get; set; }
     }
 
-    // RelayCommand実装
+    // イベントクラス
+    public class MessageEvent
+    {
+        public string Message { get; set; }
+        public MessageType Type { get; set; }
+    }
+
+    public enum MessageType
+    {
+        Info,
+        Warning,
+        Error,
+        Success
+    }
+
+    // RelayCommand実装は変更なし
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;

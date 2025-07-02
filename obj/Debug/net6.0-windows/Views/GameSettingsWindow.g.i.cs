@@ -85,7 +85,7 @@ namespace MomotetsuGame.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/MomotetsuGame;component/views/gamesettingswindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/MomotetsuGame;V1.0.0.0;component/views/gamesettingswindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\GameSettingsWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
