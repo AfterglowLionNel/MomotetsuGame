@@ -2,175 +2,230 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MomotetsuGame.Core.Interfaces;
 using MomotetsuGame.Core.ValueObjects;
+using MomotetsuGame.Core.Entities;
+using MomotetsuGame.Core.Enums;
 
-namespace MomotetsuGame.Application.GameLogic
+namespace MomotetsuGame.Application.Services
 {
+    /// <summary>
+    /// サイコロサービスのインターフェース
+    /// </summary>
+    public interface IDiceService
+    {
+        /// <summary>
+        /// サイコロを振る
+        /// </summary>
+        /// <param name="diceCount">サイコロの数</param>
+        /// <returns>サイコロの結果</returns>
+        DiceResult Roll(int diceCount);
+
+        /// <summary>
+        /// プレイヤーの状態を考慮してサイコロを振る
+        /// </summary>
+        /// <param name="player">プレイヤー</param>
+        /// <param name="baseDiceCount">基本のサイコロ数</param>
+        /// <returns>サイコロの結果</returns>
+        Task<DiceResult> RollForPlayerAsync(Player player, int baseDiceCount = 1);
+
+        /// <summary>
+        /// アニメーション付きでサイコロを振る
+        /// </summary>
+        /// <param name="diceCount">サイコロの数</param>
+        /// <param name="onRolling">回転中のコールバック</param>
+        /// <returns>サイコロの結果</returns>
+        Task<DiceResult> RollWithAnimationAsync(int diceCount, Action<List<int>>? onRolling = null);
+    }
+
     /// <summary>
     /// サイコロサービスの実装
     /// </summary>
     public class DiceService : IDiceService
     {
         private readonly Random _random;
-        private readonly object _lock = new object();
 
         public DiceService()
         {
             _random = new Random();
         }
 
-        /// <summary>
-        /// 通常のサイコロを振る
-        /// </summary>
-        /// <param name="count">サイコロの数</param>
-        /// <returns>サイコロの結果</returns>
-        public DiceResult Roll(int count)
+        public DiceService(int seed)
         {
-            if (count <= 0)
-                throw new ArgumentException("サイコロの数は1以上である必要があります。", nameof(count));
+            _random = new Random(seed);
+        }
+
+        /// <summary>
+        /// サイコロを振る
+        /// </summary>
+        public DiceResult Roll(int diceCount)
+        {
+            if (diceCount <= 0)
+                throw new ArgumentException("サイコロの数は1個以上である必要があります。", nameof(diceCount));
 
             var values = new List<int>();
-
-            lock (_lock)
+            for (int i = 0; i < diceCount; i++)
             {
-                for (int i = 0; i < count; i++)
-                {
-                    values.Add(_random.Next(1, 7)); // 1～6の値
-                }
+                values.Add(_random.Next(1, 7));
             }
 
             return new DiceResult(values);
         }
 
         /// <summary>
-        /// 特殊サイコロを振る
+        /// プレイヤーの状態を考慮してサイコロを振る
         /// </summary>
-        /// <param name="count">サイコロの数</param>
-        /// <param name="min">最小値</param>
-        /// <param name="max">最大値</param>
-        /// <returns>サイコロの結果</returns>
-        public DiceResult RollSpecial(int count, int min, int max)
+        public async Task<DiceResult> RollForPlayerAsync(Player player, int baseDiceCount = 1)
         {
-            if (count <= 0)
-                throw new ArgumentException("サイコロの数は1以上である必要があります。", nameof(count));
-            if (min < 1 || min > max || max > 6)
-                throw new ArgumentException("最小値と最大値の範囲が不正です。");
+            if (player == null)
+                throw new ArgumentNullException(nameof(player));
 
-            var values = new List<int>();
+            int actualDiceCount = baseDiceCount;
 
-            lock (_lock)
+            // プレイヤーの状態による補正
+            switch (player.Status)
             {
-                for (int i = 0; i < count; i++)
+                case PlayerStatus.Cow:
+                    // 牛歩状態は必ず1が出る
+                    return new DiceResult(new List<int> { 1 });
+
+                case PlayerStatus.Unlucky:
+                    // 絶不調は1-2しか出ない
+                    var unluckyValues = new List<int>();
+                    for (int i = 0; i < actualDiceCount; i++)
+                    {
+                        unluckyValues.Add(_random.Next(1, 3));
+                    }
+                    return new DiceResult(unluckyValues);
+
+                case PlayerStatus.SuperLucky:
+                    // 絶好調は5-6しか出ない
+                    var luckyValues = new List<int>();
+                    for (int i = 0; i < actualDiceCount; i++)
+                    {
+                        luckyValues.Add(_random.Next(5, 7));
+                    }
+                    return new DiceResult(luckyValues, isSpecial: true);
+
+                default:
+                    // 通常状態
+                    return await Task.Run(() => Roll(actualDiceCount));
+            }
+        }
+
+        /// <summary>
+        /// アニメーション付きでサイコロを振る
+        /// </summary>
+        public async Task<DiceResult> RollWithAnimationAsync(int diceCount, Action<List<int>>? onRolling = null)
+        {
+            const int animationFrames = 10;
+            const int frameDelay = 100; // ミリ秒
+
+            // アニメーション中の仮の値を表示
+            for (int frame = 0; frame < animationFrames; frame++)
+            {
+                var tempValues = new List<int>();
+                for (int i = 0; i < diceCount; i++)
                 {
-                    values.Add(_random.Next(min, max + 1));
+                    tempValues.Add(_random.Next(1, 7));
+                }
+
+                onRolling?.Invoke(tempValues);
+                await Task.Delay(frameDelay);
+            }
+
+            // 最終的な結果を決定
+            return Roll(diceCount);
+        }
+
+        /// <summary>
+        /// 目的地補正を適用
+        /// </summary>
+        public DiceResult ApplyDestinationCorrection(DiceResult original, int distanceToDestination)
+        {
+            // 目的地が近い場合、ちょうど到着しやすくする
+            if (distanceToDestination > 0 && distanceToDestination <= 6)
+            {
+                // 20%の確率で目的地ちょうどの目が出る
+                if (_random.Next(100) < 20)
+                {
+                    return new DiceResult(new List<int> { distanceToDestination });
                 }
             }
 
-            return new DiceResult(values, isSpecial: true);
+            return original;
         }
 
         /// <summary>
-        /// 固定値のサイコロ結果を作成（デバッグ/テスト用）
+        /// イベントマスの補正を適用
         /// </summary>
-        public DiceResult CreateFixed(params int[] values)
+        public DiceResult ApplyEventSquareCorrection(DiceResult original, List<int> eventSquareDistances)
         {
-            if (values == null || values.Length == 0)
-                throw new ArgumentException("値が指定されていません。", nameof(values));
+            // プラス駅やカード売り場が近い場合、到着しやすくする
+            var total = original.Total;
 
-            return new DiceResult(values.ToList());
-        }
-
-        /// <summary>
-        /// 絶不調時のサイコロを振る（1～2のみ）
-        /// </summary>
-        public DiceResult RollUnlucky(int count)
-        {
-            return RollSpecial(count, 1, 2);
-        }
-
-        /// <summary>
-        /// 牛歩状態のサイコロを振る（1固定）
-        /// </summary>
-        public DiceResult RollCow()
-        {
-            return new DiceResult(new List<int> { 1 });
-        }
-
-        /// <summary>
-        /// サイコロアニメーション用のランダム値を生成
-        /// </summary>
-        public async Task<List<int>> GenerateAnimationValuesAsync(int diceCount, int frames = 30)
-        {
-            var values = new List<int>();
-
-            await Task.Run(() =>
+            foreach (var distance in eventSquareDistances)
             {
-                lock (_lock)
+                if (distance == total && _random.Next(100) < 30) // 30%の確率で補正
                 {
-                    for (int i = 0; i < frames; i++)
-                    {
-                        values.Add(_random.Next(1, 7));
-                    }
+                    return original; // そのまま使用
                 }
-            });
+            }
 
-            return values;
+            // 10%の確率で±1の補正
+            if (_random.Next(100) < 10)
+            {
+                var nearestEvent = eventSquareDistances.OrderBy(d => Math.Abs(d - total)).FirstOrDefault();
+                if (nearestEvent > 0 && Math.Abs(nearestEvent - total) == 1)
+                {
+                    var adjustedValues = original.Values.ToList();
+                    if (nearestEvent > total)
+                        adjustedValues[0]++; // +1
+                    else
+                        adjustedValues[0]--; // -1
+
+                    // 1-6の範囲内に収める
+                    adjustedValues[0] = Math.Max(1, Math.Min(6, adjustedValues[0]));
+                    return new DiceResult(adjustedValues);
+                }
+            }
+
+            return original;
         }
     }
 
     /// <summary>
-    /// サイコロ関連のユーティリティ
+    /// デバッグ用の固定サイコロサービス
     /// </summary>
-    public static class DiceUtility
+    public class FixedDiceService : IDiceService
     {
-        /// <summary>
-        /// サイコロの目の期待値を計算
-        /// </summary>
-        public static double CalculateExpectedValue(int diceCount, int min = 1, int max = 6)
+        private readonly Queue<int> _fixedValues;
+
+        public FixedDiceService(params int[] values)
         {
-            double singleDiceExpected = (min + max) / 2.0;
-            return singleDiceExpected * diceCount;
+            _fixedValues = new Queue<int>(values);
         }
 
-        /// <summary>
-        /// 特定の値以上が出る確率を計算
-        /// </summary>
-        public static double CalculateProbability(int diceCount, int targetValue)
+        public DiceResult Roll(int diceCount)
         {
-            if (targetValue <= diceCount) return 1.0;
-            if (targetValue > diceCount * 6) return 0.0;
-
-            // 簡易計算（正確な計算は動的計画法が必要）
-            double averageRoll = 3.5 * diceCount;
-            double variance = 2.92 * diceCount; // 単一サイコロの分散は約2.92
-            double standardDeviation = Math.Sqrt(variance);
-
-            // 正規分布で近似
-            double z = (targetValue - averageRoll) / standardDeviation;
-            return 1 - NormalCDF(z);
+            var values = new List<int>();
+            for (int i = 0; i < diceCount; i++)
+            {
+                if (_fixedValues.Count > 0)
+                    values.Add(_fixedValues.Dequeue());
+                else
+                    values.Add(1); // デフォルト値
+            }
+            return new DiceResult(values);
         }
 
-        /// <summary>
-        /// 正規分布の累積分布関数（簡易版）
-        /// </summary>
-        private static double NormalCDF(double x)
+        public Task<DiceResult> RollForPlayerAsync(Player player, int baseDiceCount = 1)
         {
-            // エラー関数による近似
-            double a1 = 0.254829592;
-            double a2 = -0.284496736;
-            double a3 = 1.421413741;
-            double a4 = -1.453152027;
-            double a5 = 1.061405429;
-            double p = 0.3275911;
+            return Task.FromResult(Roll(baseDiceCount));
+        }
 
-            int sign = x < 0 ? -1 : 1;
-            x = Math.Abs(x) / Math.Sqrt(2.0);
-
-            double t = 1.0 / (1.0 + p * x);
-            double y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.Exp(-x * x);
-
-            return 0.5 * (1.0 + sign * y);
+        public Task<DiceResult> RollWithAnimationAsync(int diceCount, Action<List<int>>? onRolling = null)
+        {
+            return Task.FromResult(Roll(diceCount));
         }
     }
 }

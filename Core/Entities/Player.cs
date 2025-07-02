@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using MomotetsuGame.Core.ValueObjects;
 using MomotetsuGame.Core.Enums;
-using Newtonsoft.Json.Linq;
 
 namespace MomotetsuGame.Core.Entities
 {
@@ -14,15 +13,11 @@ namespace MomotetsuGame.Core.Entities
     /// </summary>
     public class Player : INotifyPropertyChanged
     {
-        private string _name = string.Empty;
         private Money _currentMoney;
         private Money _debt;
         private Station? _currentStation;
         private PlayerStatus _status;
-        private Hero? _assignedHero;
-        private Bonby? _attachedBonby;
         private int _rank;
-        private bool _isHuman;
 
         /// <summary>
         /// プレイヤーID
@@ -32,11 +27,7 @@ namespace MomotetsuGame.Core.Entities
         /// <summary>
         /// プレイヤー名
         /// </summary>
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// 現在の所持金
@@ -71,9 +62,9 @@ namespace MomotetsuGame.Core.Entities
         public List<Property> OwnedProperties { get; set; }
 
         /// <summary>
-        /// 所持カードコレクション
+        /// 所持カードリスト
         /// </summary>
-        public CardCollection Cards { get; set; }
+        public List<Card> Cards { get; set; }
 
         /// <summary>
         /// プレイヤーステータス
@@ -87,20 +78,12 @@ namespace MomotetsuGame.Core.Entities
         /// <summary>
         /// 割り当てられたヒーロー
         /// </summary>
-        public Hero? AssignedHero
-        {
-            get => _assignedHero;
-            set => SetProperty(ref _assignedHero, value);
-        }
+        public Hero? AssignedHero { get; set; }
 
         /// <summary>
         /// 付着しているボンビー
         /// </summary>
-        public Bonby? AttachedBonby
-        {
-            get => _attachedBonby;
-            set => SetProperty(ref _attachedBonby, value);
-        }
+        public Bonby? AttachedBonby { get; set; }
 
         /// <summary>
         /// 総資産（所持金＋物件評価額）
@@ -110,14 +93,10 @@ namespace MomotetsuGame.Core.Entities
         /// <summary>
         /// 人間プレイヤーかどうか
         /// </summary>
-        public bool IsHuman
-        {
-            get => _isHuman;
-            set => SetProperty(ref _isHuman, value);
-        }
+        public bool IsHuman { get; set; }
 
         /// <summary>
-        /// 現在の順位
+        /// 順位
         /// </summary>
         public int Rank
         {
@@ -126,19 +105,24 @@ namespace MomotetsuGame.Core.Entities
         }
 
         /// <summary>
-        /// 色（UI表示用）
+        /// プレイヤーカラー
         /// </summary>
         public PlayerColor Color { get; set; }
 
         /// <summary>
-        /// アイコンパス（UI表示用）
-        /// </summary>
-        public string IconPath { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 年間収益（決算用）
+        /// 年間収益（決算時に設定）
         /// </summary>
         public Money YearlyIncome { get; set; }
+
+        /// <summary>
+        /// カード所持上限
+        /// </summary>
+        public int MaxCardCount => 8;
+
+        /// <summary>
+        /// ステータス異常の残りターン数
+        /// </summary>
+        public int StatusDuration { get; set; }
 
         /// <summary>
         /// コンストラクタ
@@ -147,12 +131,24 @@ namespace MomotetsuGame.Core.Entities
         {
             Id = Guid.NewGuid();
             OwnedProperties = new List<Property>();
-            Cards = new CardCollection();
+            Cards = new List<Card>();
             CurrentMoney = new Money(100000000); // 初期資金1億円
             Debt = Money.Zero;
             Status = PlayerStatus.Normal;
-            Rank = 1;
             IsHuman = false;
+        }
+
+        /// <summary>
+        /// プレイヤーを作成（ファクトリメソッド）
+        /// </summary>
+        public static Player Create(string name, bool isHuman, PlayerColor color)
+        {
+            return new Player
+            {
+                Name = name,
+                IsHuman = isHuman,
+                Color = color
+            };
         }
 
         /// <summary>
@@ -161,84 +157,126 @@ namespace MomotetsuGame.Core.Entities
         private Money CalculateTotalAssets()
         {
             var propertyValue = OwnedProperties
-                .Where(p => p != null)
-                .Aggregate(Money.Zero, (sum, prop) => sum + prop.CurrentPrice);
+                .Aggregate(Money.Zero, (total, prop) => total + prop.CurrentPrice);
 
             return CurrentMoney + propertyValue - Debt;
         }
 
         /// <summary>
-        /// 物件を購入
+        /// お金を支払う（不足時は借金）
         /// </summary>
-        public bool PurchaseProperty(Property property)
+        public bool Pay(Money amount)
         {
-            if (property == null || property.Owner != null)
-                return false;
-
-            if (CurrentMoney < property.BasePrice)
-                return false;
-
-            CurrentMoney -= property.BasePrice;
-            property.Owner = this;
-            OwnedProperties.Add(property);
-
-            OnPropertyChanged(nameof(TotalAssets));
-            return true;
+            if (CurrentMoney >= amount)
+            {
+                CurrentMoney -= amount;
+                return true;
+            }
+            else
+            {
+                var shortage = amount - CurrentMoney;
+                CurrentMoney = Money.Zero;
+                Debt += shortage;
+                return false; // 借金が発生
+            }
         }
 
         /// <summary>
-        /// 物件を売却
+        /// お金を受け取る（借金返済優先）
         /// </summary>
-        public bool SellProperty(Property property)
+        public void Receive(Money amount)
         {
-            if (property == null || !OwnedProperties.Contains(property))
+            if (Debt > Money.Zero)
+            {
+                if (amount >= Debt)
+                {
+                    amount -= Debt;
+                    Debt = Money.Zero;
+                }
+                else
+                {
+                    Debt -= amount;
+                    amount = Money.Zero;
+                }
+            }
+
+            CurrentMoney += amount;
+        }
+
+        /// <summary>
+        /// カードを追加（上限チェック付き）
+        /// </summary>
+        public bool AddCard(Card card)
+        {
+            if (Cards.Count >= MaxCardCount)
                 return false;
 
-            var sellPrice = property.CurrentPrice * 0.7m; // 売却額は70%
-            CurrentMoney += sellPrice;
-            property.Owner = null;
-            OwnedProperties.Remove(property);
-
-            OnPropertyChanged(nameof(TotalAssets));
+            Cards.Add(card);
             return true;
         }
 
         /// <summary>
         /// カードを使用
         /// </summary>
-        public bool UseCard(Card card)
+        public void UseCard(Card card)
         {
-            if (card == null || !Cards.Contains(card))
-                return false;
-
-            if (Status == PlayerStatus.Sealed)
-                return false;
-
-            return Cards.Use(card);
+            card.UsageCount--;
+            if (card.UsageCount <= 0)
+            {
+                Cards.Remove(card);
+            }
         }
 
         /// <summary>
-        /// 借金をする
+        /// ステータス異常を設定
         /// </summary>
-        public void Borrow(Money amount)
+        public void SetStatus(PlayerStatus status, int duration)
         {
-            Debt += amount;
-            CurrentMoney += amount;
+            Status = status;
+            StatusDuration = duration;
         }
 
         /// <summary>
-        /// 借金を返済
+        /// ターン終了時の処理
         /// </summary>
-        public bool RepayDebt(Money amount)
+        public void ProcessTurnEnd()
         {
-            if (CurrentMoney < amount)
-                return false;
+            // ステータス異常の期間を減らす
+            if (StatusDuration > 0)
+            {
+                StatusDuration--;
+                if (StatusDuration == 0)
+                {
+                    Status = PlayerStatus.Normal;
+                }
+            }
+        }
 
-            var repayAmount = amount > Debt ? Debt : amount;
-            Debt -= repayAmount;
-            CurrentMoney -= repayAmount;
+        /// <summary>
+        /// プレイヤーカラーの16進数表現を取得
+        /// </summary>
+        public string GetColorHex()
+        {
+            return Color switch
+            {
+                PlayerColor.Blue => "#0000FF",
+                PlayerColor.Red => "#FF0000",
+                PlayerColor.Green => "#00FF00",
+                PlayerColor.Yellow => "#FFFF00",
+                PlayerColor.Purple => "#800080",
+                PlayerColor.Orange => "#FFA500",
+                PlayerColor.Pink => "#FFC0CB",
+                PlayerColor.Cyan => "#00FFFF",
+                _ => "#808080"
+            };
+        }
 
-            return true;
+        /// <summary>
+        /// 文字列表現
+        /// </summary>
+        public override string ToString()
+        {
+            return $"{Name} - 総資産: {TotalAssets}, 順位: {Rank}位";
         }
 
         #region INotifyPropertyChanged
@@ -260,95 +298,106 @@ namespace MomotetsuGame.Core.Entities
     }
 
     /// <summary>
-    /// カードコレクション
-    /// </summary>
-    public class CardCollection : List<Card>
-    {
-        public const int MaxCards = 8;
-        public const int MaxBankCards = 16;
-
-        /// <summary>
-        /// 通常の所持カード
-        /// </summary>
-        public List<Card> HandCards => this.Take(MaxCards).ToList();
-
-        /// <summary>
-        /// カードバンクのカード
-        /// </summary>
-        public List<Card> BankCards => this.Skip(MaxCards).Take(MaxBankCards).ToList();
-
-        /// <summary>
-        /// カードを追加（所持上限チェック付き）
-        /// </summary>
-        public bool TryAdd(Card card)
-        {
-            if (Count >= MaxCards + MaxBankCards)
-                return false;
-
-            Add(card);
-            return true;
-        }
-
-        /// <summary>
-        /// カードを使用
-        /// </summary>
-        public bool Use(Card card)
-        {
-            if (!Contains(card))
-                return false;
-
-            card.UsageCount--;
-            if (card.UsageCount <= 0)
-            {
-                Remove(card);
-            }
-
-            return true;
-        }
-    }
-
-    /// <summary>
-    /// ヒーロークラス（歴史上の偉人）
+    /// ヒーロー（歴史上の偉人）
     /// </summary>
     public class Hero
     {
-        public string Name { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public HeroType Type { get; set; }
-        public Station RequiredStation { get; set; } = null!;
+        /// <summary>
+        /// ヒーローID
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
-        /// ヒーロー効果を適用
+        /// ヒーロー名
         /// </summary>
-        public virtual void ApplyEffect(Player player, GameContext context)
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 獲得条件の説明
+        /// </summary>
+        public string AcquisitionCondition { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 効果の説明
+        /// </summary>
+        public string EffectDescription { get; set; } = string.Empty;
+
+        /// <summary>
+        /// アイコンパス
+        /// </summary>
+        public string IconPath { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 効果を適用するメソッド（後で詳細実装）
+        /// </summary>
+        public virtual void ApplyEffect(Player player, GameState gameState)
         {
-            // 派生クラスで実装
+            // 各ヒーローごとの効果を実装
         }
     }
 
     /// <summary>
-    /// ボンビークラス
+    /// ボンビー
     /// </summary>
     public class Bonby
     {
-        public string Name { get; set; } = string.Empty;
+        /// <summary>
+        /// ボンビーの種類
+        /// </summary>
         public BonbyType Type { get; set; }
-        public int TurnsRemaining { get; set; }
 
         /// <summary>
-        /// ボンビーの悪行を実行
+        /// ボンビーの名前
         /// </summary>
-        public virtual void ExecuteMischief(Player player, GameContext context)
+        public string Name => GetBonbyName();
+
+        /// <summary>
+        /// アイコンパス
+        /// </summary>
+        public string IconPath => GetIconPath();
+
+        /// <summary>
+        /// 悪行を実行
+        /// </summary>
+        public virtual void ExecuteMischief(Player player, GameState gameState)
         {
-            // 派生クラスで実装
+            // ボンビーの種類に応じた悪行を実装
+        }
+
+        /// <summary>
+        /// ボンビーの名前を取得
+        /// </summary>
+        private string GetBonbyName()
+        {
+            return Type switch
+            {
+                BonbyType.Mini => "ミニボンビー",
+                BonbyType.Normal => "ボンビー",
+                BonbyType.King => "キングボンビー",
+                BonbyType.Pokon => "ポコン",
+                BonbyType.BonbyrasAlien => "ボンビラス星",
+                _ => "ボンビー"
+            };
+        }
+
+        /// <summary>
+        /// アイコンパスを取得
+        /// </summary>
+        private string GetIconPath()
+        {
+            return $"/Resources/Images/Bonby/{Type}.png";
         }
     }
 
     /// <summary>
-    /// ゲームコンテキスト（仮）
+    /// ボンビーの種類
     /// </summary>
-    public class GameContext
+    public enum BonbyType
     {
-        // 後で実装
+        Mini,           // ミニボンビー
+        Normal,         // ボンビー
+        King,           // キングボンビー
+        Pokon,          // ポコン
+        BonbyrasAlien   // ボンビラス星
     }
 }

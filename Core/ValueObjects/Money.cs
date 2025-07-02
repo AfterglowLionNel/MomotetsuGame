@@ -5,72 +5,140 @@ namespace MomotetsuGame.Core.ValueObjects
     /// <summary>
     /// ‹àŠz‚ğ•\‚·’lƒIƒuƒWƒFƒNƒg
     /// </summary>
-    public readonly struct Money : IComparable<Money>, IEquatable<Money>
+    public struct Money : IComparable<Money>, IEquatable<Money>
     {
         private readonly long _value;
 
         /// <summary>
-        /// Å‘å‹àŠzi9999‰­9999–œ9999‰~j
+        /// Å‘å’li9999‰­9999–œ9999‰~j
         /// </summary>
-        public static readonly Money Max = new(999999999999L);
+        public static readonly Money Max = new Money(999999999999L);
 
         /// <summary>
-        /// ƒ[ƒ‰~
+        /// ƒ[ƒ
         /// </summary>
-        public static readonly Money Zero = new(0);
+        public static readonly Money Zero = new Money(0);
 
         /// <summary>
-        /// ‹àŠz‚Ì’l
+        /// ’li‰~’PˆÊj
         /// </summary>
         public long Value => _value;
 
         /// <summary>
         /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
         /// </summary>
-        /// <param name="value">‹àŠz</param>
         public Money(long value)
         {
-            _value = Math.Min(Math.Max(0, value), Max._value);
+            _value = Math.Max(0, Math.Min(value, Max._value));
         }
 
         /// <summary>
         /// ‰ÁZ‰‰Zq
         /// </summary>
         public static Money operator +(Money a, Money b)
-            => new(a._value + b._value);
+        {
+            return new Money(a._value + b._value);
+        }
 
         /// <summary>
         /// Œ¸Z‰‰Zq
         /// </summary>
         public static Money operator -(Money a, Money b)
-            => new(Math.Max(0, a._value - b._value));
-
-        /// <summary>
-        /// æZ‰‰Zqi”{—¦j
-        /// </summary>
-        public static Money operator *(Money money, decimal multiplier)
-            => new((long)(money._value * multiplier));
-
-        /// <summary>
-        /// œZ‰‰Zq
-        /// </summary>
-        public static Money operator /(Money money, decimal divisor)
         {
-            if (divisor == 0)
-                throw new DivideByZeroException();
-            return new((long)(money._value / divisor));
+            return new Money(Math.Max(0, a._value - b._value));
         }
 
-        // ”äŠr‰‰Zq
-        public static bool operator >(Money a, Money b) => a._value > b._value;
-        public static bool operator <(Money a, Money b) => a._value < b._value;
-        public static bool operator >=(Money a, Money b) => a._value >= b._value;
-        public static bool operator <=(Money a, Money b) => a._value <= b._value;
-        public static bool operator ==(Money a, Money b) => a._value == b._value;
-        public static bool operator !=(Money a, Money b) => a._value != b._value;
+        /// <summary>
+        /// æZ‰‰Zqidecimalj
+        /// </summary>
+        public static Money operator *(Money a, decimal multiplier)
+        {
+            return new Money((long)(a._value * multiplier));
+        }
 
         /// <summary>
-        /// •¶š—ñ•\Œ»i“ú–{‰~Œ`®j
+        /// æZ‰‰Zqiintj
+        /// </summary>
+        public static Money operator *(Money a, int multiplier)
+        {
+            return new Money(a._value * multiplier);
+        }
+
+        /// <summary>
+        /// ”äŠr‰‰Zq
+        /// </summary>
+        public static bool operator >(Money a, Money b)
+        {
+            return a._value > b._value;
+        }
+
+        public static bool operator <(Money a, Money b)
+        {
+            return a._value < b._value;
+        }
+
+        public static bool operator >=(Money a, Money b)
+        {
+            return a._value >= b._value;
+        }
+
+        public static bool operator <=(Money a, Money b)
+        {
+            return a._value <= b._value;
+        }
+
+        public static bool operator ==(Money a, Money b)
+        {
+            return a._value == b._value;
+        }
+
+        public static bool operator !=(Money a, Money b)
+        {
+            return a._value != b._value;
+        }
+
+        /// <summary>
+        /// ˆÃ–Ù“I‚ÈŒ^•ÏŠ·ilong -> Moneyj
+        /// </summary>
+        public static implicit operator Money(long value)
+        {
+            return new Money(value);
+        }
+
+        /// <summary>
+        /// IComparableÀ‘•
+        /// </summary>
+        public int CompareTo(Money other)
+        {
+            return _value.CompareTo(other._value);
+        }
+
+        /// <summary>
+        /// IEquatableÀ‘•
+        /// </summary>
+        public bool Equals(Money other)
+        {
+            return _value == other._value;
+        }
+
+        /// <summary>
+        /// EqualsÀ‘•
+        /// </summary>
+        public override bool Equals(object? obj)
+        {
+            return obj is Money money && Equals(money);
+        }
+
+        /// <summary>
+        /// GetHashCodeÀ‘•
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return _value.GetHashCode();
+        }
+
+        /// <summary>
+        /// •¶š—ñ•\Œ»
         /// </summary>
         public override string ToString()
         {
@@ -78,17 +146,24 @@ namespace MomotetsuGame.Core.ValueObjects
             {
                 var oku = _value / 100000000;
                 var man = (_value % 100000000) / 10000;
-                if (man > 0)
+                var yen = _value % 10000;
+
+                if (man == 0 && yen == 0)
+                    return $"{oku}‰­‰~";
+                else if (yen == 0)
                     return $"{oku}‰­{man}–œ‰~";
-                return $"{oku}‰­‰~";
+                else
+                    return $"{oku}‰­{man}–œ{yen}‰~";
             }
             else if (_value >= 10000) // 1–œˆÈã
             {
                 var man = _value / 10000;
                 var yen = _value % 10000;
-                if (yen > 0)
+
+                if (yen == 0)
+                    return $"{man}–œ‰~";
+                else
                     return $"{man}–œ{yen}‰~";
-                return $"{man}–œ‰~";
             }
             else
             {
@@ -102,29 +177,19 @@ namespace MomotetsuGame.Core.ValueObjects
         public string ToShortString()
         {
             if (_value >= 100000000) // 1‰­ˆÈã
-                return $"{_value / 100000000}‰­";
+            {
+                var oku = _value / 100000000.0;
+                return $"{oku:F1}‰­";
+            }
             else if (_value >= 10000) // 1–œˆÈã
-                return $"{_value / 10000}–œ";
+            {
+                var man = _value / 10000.0;
+                return $"{man:F0}–œ";
+            }
             else
+            {
                 return $"{_value}";
+            }
         }
-
-        /// <summary>
-        /// ƒp[ƒZƒ“ƒe[ƒW‚ğŒvZ
-        /// </summary>
-        public Money CalculatePercentage(decimal percentage)
-        {
-            return new Money((long)(_value * percentage / 100));
-        }
-
-        // IComparable<Money>À‘•
-        public int CompareTo(Money other) => _value.CompareTo(other._value);
-
-        // IEquatable<Money>À‘•
-        public bool Equals(Money other) => _value == other._value;
-
-        public override bool Equals(object? obj) => obj is Money money && Equals(money);
-
-        public override int GetHashCode() => _value.GetHashCode();
     }
 }

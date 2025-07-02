@@ -3,12 +3,84 @@
   "WorkspaceRootPath": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\cardeffects\\attackcardeffects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\cardeffects\\attackcardeffects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\cardeffects\\utilitycardeffects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\cardeffects\\utilitycardeffects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\ai\\aistrategies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\ai\\aistrategies.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\development_progress.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:development_progress.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\ai\\computerai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\ai\\computerai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\interfaces\\icomputerai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\interfaces\\icomputerai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\gamelogic\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\gamelogic\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\gamelogic\\propertyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\gamelogic\\propertyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\gamelogic\\routecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\gamelogic\\routecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\gamelogic\\diceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\gamelogic\\diceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\interfaces\\igamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\interfaces\\igamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\interfaces\\icardeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\interfaces\\icardeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\valueobjects\\coordinate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\valueobjects\\coordinate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\valueobjects\\money.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\valueobjects\\money.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\entities\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\entities\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\entities\\station.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\entities\\station.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\enums\\gameenums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\enums\\gameenums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\entities\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -37,22 +109,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\viewmodels\\modeselectionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:viewmodels\\modeselectionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\gamelogic\\propertyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\gamelogic\\propertyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\gamelogic\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\gamelogic\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\gamelogic\\routecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\gamelogic\\routecalculator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\gamelogic\\diceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:application\\gamelogic\\diceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\services\\gameconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -87,28 +143,12 @@
       "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:resources\\styles\\gamestyles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\interfaces\\icomputerai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\interfaces\\icomputerai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\interfaces\\icardeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\interfaces\\icardeffect.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\entities\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\entities\\card.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\entities\\property.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\entities\\property.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\entities\\station.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\entities\\station.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\entities\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\entities\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\application\\commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -123,24 +163,8 @@
       "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\valueobjects\\diceresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\valueobjects\\coordinate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\valueobjects\\coordinate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\valueobjects\\money.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\valueobjects\\money.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\core\\enums\\gameenums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:core\\enums\\gameenums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\fix-momotetsuproject.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:fix-momotetsuproject.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|c:\\users\\lions\\source\\repos\\momotetsugame\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2072D894-432C-4BFA-B1C4-622A74D333CD}|MomotetsuGame.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -150,87 +174,240 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AttackCardEffects.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\CardEffects\\AttackCardEffects.cs",
+              "RelativeDocumentMoniker": "Application\\CardEffects\\AttackCardEffects.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\CardEffects\\AttackCardEffects.cs",
+              "RelativeToolTip": "Application\\CardEffects\\AttackCardEffects.cs",
+              "ViewState": "AgIAAM0AAAAAAAAAAAAAAOAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T06:15:12.619Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "UtilityCardEffects.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\CardEffects\\UtilityCardEffects.cs",
+              "RelativeDocumentMoniker": "Application\\CardEffects\\UtilityCardEffects.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\CardEffects\\UtilityCardEffects.cs",
+              "RelativeToolTip": "Application\\CardEffects\\UtilityCardEffects.cs",
+              "ViewState": "AgIAAKsBAAAAAAAAAAAIwMIBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T06:14:11.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AIStrategies.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\AI\\AIStrategies.cs",
+              "RelativeDocumentMoniker": "Application\\AI\\AIStrategies.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\AI\\AIStrategies.cs",
+              "RelativeToolTip": "Application\\AI\\AIStrategies.cs",
+              "ViewState": "AgIAAE0BAAAAAAAAAAAIwGQBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T06:11:20.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ComputerAI.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\AI\\ComputerAI.cs",
+              "RelativeDocumentMoniker": "Application\\AI\\ComputerAI.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\AI\\ComputerAI.cs",
+              "RelativeToolTip": "Application\\AI\\ComputerAI.cs",
+              "ViewState": "AgIAALsBAAAAAAAAAAAIwNIBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T06:06:14.98Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IGameManager.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\IGameManager.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\IGameManager.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\IGameManager.cs",
+              "RelativeToolTip": "Core\\Interfaces\\IGameManager.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAIwKwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T05:44:54.197Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DEVELOPMENT_PROGRESS.md",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\DEVELOPMENT_PROGRESS.md",
+              "RelativeDocumentMoniker": "DEVELOPMENT_PROGRESS.md",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\DEVELOPMENT_PROGRESS.md",
+              "RelativeToolTip": "DEVELOPMENT_PROGRESS.md",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAIwFgAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-07-02T05:37:49.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Money.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\Money.cs",
+              "RelativeDocumentMoniker": "Core\\ValueObjects\\Money.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\Money.cs",
+              "RelativeToolTip": "Core\\ValueObjects\\Money.cs",
+              "ViewState": "AgIAAKsAAAAAAAAAAAAIwMIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:18:25.184Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Coordinate.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\Coordinate.cs",
+              "RelativeDocumentMoniker": "Core\\ValueObjects\\Coordinate.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\Coordinate.cs",
+              "RelativeToolTip": "Core\\ValueObjects\\Coordinate.cs",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAIwLsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:18:41.874Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DiceService.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\DiceService.cs",
+              "RelativeDocumentMoniker": "Application\\GameLogic\\DiceService.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\DiceService.cs",
+              "RelativeToolTip": "Application\\GameLogic\\DiceService.cs",
+              "ViewState": "AgIAAM8AAAAAAAAAAAAIwOYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T05:09:33.452Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RouteCalculator.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\RouteCalculator.cs",
+              "RelativeDocumentMoniker": "Application\\GameLogic\\RouteCalculator.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\RouteCalculator.cs",
+              "RelativeToolTip": "Application\\GameLogic\\RouteCalculator.cs",
+              "ViewState": "AgIAADQBAAAAAAAAAAAIwEsBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T05:09:49.7Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PropertyService.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\PropertyService.cs",
+              "RelativeDocumentMoniker": "Application\\GameLogic\\PropertyService.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\PropertyService.cs",
+              "RelativeToolTip": "Application\\GameLogic\\PropertyService.cs",
+              "ViewState": "AgIAAIoBAAAAAAAAAAAIwKEBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:41:50.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GameManager.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\GameManager.cs",
+              "RelativeDocumentMoniker": "Application\\GameLogic\\GameManager.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\GameManager.cs",
+              "RelativeToolTip": "Application\\GameLogic\\GameManager.cs",
+              "ViewState": "AgIAADwCAAAAAAAAAAAIwFMCAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:42:54.92Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IComputerAI.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\IComputerAI.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\IComputerAI.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\IComputerAI.cs",
+              "RelativeToolTip": "Core\\Interfaces\\IComputerAI.cs",
+              "ViewState": "AgIAAKEAAAAAAAAAAAAIwLgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:43:21.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Player.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\Player.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Player.cs",
+              "RelativeToolTip": "Core\\Entities\\Player.cs",
+              "ViewState": "AgIAAHsBAAAAAAAAAAAIwJIBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:41:19.425Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Station.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Station.cs",
+              "RelativeDocumentMoniker": "Core\\Entities\\Station.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Station.cs",
+              "RelativeToolTip": "Core\\Entities\\Station.cs",
+              "ViewState": "AgIAAPoAAAAAAAAAAAAIwBEBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:41:34.479Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "GameEnums.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Enums\\GameEnums.cs",
+              "RelativeDocumentMoniker": "Core\\Enums\\GameEnums.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Enums\\GameEnums.cs",
+              "RelativeToolTip": "Core\\Enums\\GameEnums.cs",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAIwIoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:18:00.744Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
               "Title": "MainWindowViewModel.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\ViewModels\\MainWindowViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\MainWindowViewModel.cs",
               "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\ViewModels\\MainWindowViewModel.cs",
               "RelativeToolTip": "ViewModels\\MainWindowViewModel.cs",
-              "ViewState": "AgIAAPMBAAAAAAAAAAAQwAoCAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAPMAAAAAAAAAAAAIwPsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-07-02T05:23:48.956Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GameSettingsViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\ViewModels\\GameSettingsViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\GameSettingsViewModel.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\ViewModels\\GameSettingsViewModel.cs",
-              "RelativeToolTip": "ViewModels\\GameSettingsViewModel.cs",
-              "ViewState": "AgIAAHMBAAAAAAAAAAAQwIoBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:22:35.417Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GameSettingsWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\GameSettingsWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\GameSettingsWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\GameSettingsWindow.xaml.cs",
-              "RelativeToolTip": "Views\\GameSettingsWindow.xaml.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAQwEEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:22:06.968Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "GameSettingsWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\GameSettingsWindow.xaml",
-              "RelativeDocumentMoniker": "Views\\GameSettingsWindow.xaml",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\GameSettingsWindow.xaml",
-              "RelativeToolTip": "Views\\GameSettingsWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-07-02T05:14:38.03Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ModeSelectionWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\ModeSelectionWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\ModeSelectionWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\ModeSelectionWindow.xaml.cs",
-              "RelativeToolTip": "Views\\ModeSelectionWindow.xaml.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAQwEEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:13:47.911Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\App.xaml",
-              "RelativeDocumentMoniker": "App.xaml",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\App.xaml",
-              "RelativeToolTip": "App.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-07-02T05:12:41.18Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 19,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
@@ -242,7 +419,92 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 25,
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\App.xaml",
+              "RelativeDocumentMoniker": "App.xaml",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\App.xaml",
+              "RelativeToolTip": "App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-07-02T05:12:41.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ICardEffect.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\ICardEffect.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\ICardEffect.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\ICardEffect.cs",
+              "RelativeToolTip": "Core\\Interfaces\\ICardEffect.cs",
+              "ViewState": "AgIAAM0AAAAAAAAAAAAIwNUAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T04:43:14.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T15:42:17.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ModeSelectionWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\ModeSelectionWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\ModeSelectionWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\ModeSelectionWindow.xaml.cs",
+              "RelativeToolTip": "Views\\ModeSelectionWindow.xaml.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAQwEEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T05:13:47.911Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "GameSettingsWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\GameSettingsWindow.xaml",
+              "RelativeDocumentMoniker": "Views\\GameSettingsWindow.xaml",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\GameSettingsWindow.xaml",
+              "RelativeToolTip": "Views\\GameSettingsWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-07-02T05:14:38.03Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "GameSettingsWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\GameSettingsWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\GameSettingsWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Views\\GameSettingsWindow.xaml.cs",
+              "RelativeToolTip": "Views\\GameSettingsWindow.xaml.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAQwEEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T05:22:06.968Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "GameSettingsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\ViewModels\\GameSettingsViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModels\\GameSettingsViewModel.cs",
+              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\ViewModels\\GameSettingsViewModel.cs",
+              "RelativeToolTip": "ViewModels\\GameSettingsViewModel.cs",
+              "ViewState": "AgIAAHMBAAAAAAAAAAAQwIoBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T05:22:35.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
               "Title": "ModeSelectionViewModel.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\ViewModels\\ModeSelectionViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\ModeSelectionViewModel.cs",
@@ -250,12 +512,11 @@
               "RelativeToolTip": "ViewModels\\ModeSelectionViewModel.cs",
               "ViewState": "AgIAAHoAAAAAAAAAAAAQwJEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:10:19.848Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T05:10:19.848Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 20,
               "Title": "GameState.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\GameState.cs",
               "RelativeDocumentMoniker": "Core\\Entities\\GameState.cs",
@@ -263,38 +524,11 @@
               "RelativeToolTip": "Core\\Entities\\GameState.cs",
               "ViewState": "AgIAAMkBAAAAAAAAAAAQwN0BAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:42:44.541Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T04:42:44.541Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "RouteCalculator.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\RouteCalculator.cs",
-              "RelativeDocumentMoniker": "Application\\GameLogic\\RouteCalculator.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\RouteCalculator.cs",
-              "RelativeToolTip": "Application\\GameLogic\\RouteCalculator.cs",
-              "ViewState": "AgIAADgBAAAAAAAAAAAQwE8BAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:09:49.7Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "DiceService.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\DiceService.cs",
-              "RelativeDocumentMoniker": "Application\\GameLogic\\DiceService.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\DiceService.cs",
-              "RelativeToolTip": "Application\\GameLogic\\DiceService.cs",
-              "ViewState": "AgIAAJgAAAAAAAAAAAAQwK8AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:09:33.452Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 27,
               "Title": "GameConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Services\\GameConfiguration.cs",
               "RelativeDocumentMoniker": "Services\\GameConfiguration.cs",
@@ -302,12 +536,11 @@
               "RelativeToolTip": "Services\\GameConfiguration.cs",
               "ViewState": "AgIAAJABAAAAAAAAAAAqwKoBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:09:13.964Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T05:09:13.964Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 28,
               "Title": "MessageService.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Services\\MessageService.cs",
               "RelativeDocumentMoniker": "Services\\MessageService.cs",
@@ -315,12 +548,11 @@
               "RelativeToolTip": "Services\\MessageService.cs",
               "ViewState": "AgIAAOEAAAAAAAAAAAAqwPsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:09:04.05Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T05:09:04.05Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 29,
               "Title": "DialogService.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Services\\DialogService.cs",
               "RelativeDocumentMoniker": "Services\\DialogService.cs",
@@ -328,12 +560,11 @@
               "RelativeToolTip": "Services\\DialogService.cs",
               "ViewState": "AgIAALEAAAAAAAAAAAAqwMsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:08:54.569Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T05:08:54.569Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 30,
               "Title": "EventBus.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Services\\EventBus.cs",
               "RelativeDocumentMoniker": "Services\\EventBus.cs",
@@ -341,58 +572,22 @@
               "RelativeToolTip": "Services\\EventBus.cs",
               "ViewState": "AgIAAKAAAAAAAAAAAAAqwLoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T05:08:45.694Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+              "WhenOpened": "2025-07-02T05:08:45.694Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 31,
               "Title": "ButtonStyles.xaml",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Resources\\Styles\\ButtonStyles.xaml",
               "RelativeDocumentMoniker": "Resources\\Styles\\ButtonStyles.xaml",
               "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Resources\\Styles\\ButtonStyles.xaml",
               "RelativeToolTip": "Resources\\Styles\\ButtonStyles.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-07-02T04:49:13.099Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T04:49:13.099Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "GameManager.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\GameManager.cs",
-              "RelativeDocumentMoniker": "Application\\GameLogic\\GameManager.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\GameManager.cs",
-              "RelativeToolTip": "Application\\GameLogic\\GameManager.cs",
-              "ViewState": "AgIAAMIAAAAAAAAAAAAqwNwAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:42:54.92Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "PropertyService.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\PropertyService.cs",
-              "RelativeDocumentMoniker": "Application\\GameLogic\\PropertyService.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\GameLogic\\PropertyService.cs",
-              "RelativeToolTip": "Application\\GameLogic\\PropertyService.cs",
-              "ViewState": "AgIAAJABAAAAAAAAAAAQwKcBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:41:50.045Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 33,
               "Title": "GameTemplates.xaml",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Resources\\Templates\\GameTemplates.xaml",
               "RelativeDocumentMoniker": "Resources\\Templates\\GameTemplates.xaml",
@@ -403,55 +598,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 32,
               "Title": "Colors.xaml",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Resources\\Styles\\Colors.xaml",
               "RelativeDocumentMoniker": "Resources\\Styles\\Colors.xaml",
               "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Resources\\Styles\\Colors.xaml",
               "RelativeToolTip": "Resources\\Styles\\Colors.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-07-02T04:48:57.673Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T04:48:57.673Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 34,
               "Title": "GameStyles.xaml",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Resources\\Styles\\GameStyles.xaml",
               "RelativeDocumentMoniker": "Resources\\Styles\\GameStyles.xaml",
               "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Resources\\Styles\\GameStyles.xaml",
               "RelativeToolTip": "Resources\\Styles\\GameStyles.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-07-02T04:48:10.501Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-02T04:48:10.501Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "IComputerAI.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\IComputerAI.cs",
-              "RelativeDocumentMoniker": "Core\\Interfaces\\IComputerAI.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\IComputerAI.cs",
-              "RelativeToolTip": "Core\\Interfaces\\IComputerAI.cs",
-              "ViewState": "AgIAAJwAAAAAAAAAAAAqwCABAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:43:21.251Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "ICardEffect.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\ICardEffect.cs",
-              "RelativeDocumentMoniker": "Core\\Interfaces\\ICardEffect.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Interfaces\\ICardEffect.cs",
-              "RelativeToolTip": "Core\\Interfaces\\ICardEffect.cs",
-              "ViewState": "AgIAAMoAAAAAAAAAAAAqwOQAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:43:14.023Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 35,
               "Title": "Card.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Card.cs",
               "RelativeDocumentMoniker": "Core\\Entities\\Card.cs",
@@ -463,7 +632,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 36,
               "Title": "Property.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Property.cs",
               "RelativeDocumentMoniker": "Core\\Entities\\Property.cs",
@@ -475,31 +644,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "Station.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Station.cs",
-              "RelativeDocumentMoniker": "Core\\Entities\\Station.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Station.cs",
-              "RelativeToolTip": "Core\\Entities\\Station.cs",
-              "ViewState": "AgIAABsBAAAAAAAAAAAqwDUBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:41:34.479Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "Player.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Player.cs",
-              "RelativeDocumentMoniker": "Core\\Entities\\Player.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Entities\\Player.cs",
-              "RelativeToolTip": "Core\\Entities\\Player.cs",
-              "ViewState": "AgIAAFkBAAAAAAAAAAAqwGEBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:41:19.425Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 37,
               "Title": "RelayCommand.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Application\\Commands\\RelayCommand.cs",
               "RelativeDocumentMoniker": "Application\\Commands\\RelayCommand.cs",
@@ -511,7 +656,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 38,
               "Title": "BaseViewModel.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\ViewModels\\BaseViewModel.cs",
               "RelativeDocumentMoniker": "ViewModels\\BaseViewModel.cs",
@@ -523,7 +668,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 39,
               "Title": "DiceResult.cs",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\DiceResult.cs",
               "RelativeDocumentMoniker": "Core\\ValueObjects\\DiceResult.cs",
@@ -535,43 +680,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "Coordinate.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\Coordinate.cs",
-              "RelativeDocumentMoniker": "Core\\ValueObjects\\Coordinate.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\Coordinate.cs",
-              "RelativeToolTip": "Core\\ValueObjects\\Coordinate.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAqwG0AAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:18:41.874Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "Money.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\Money.cs",
-              "RelativeDocumentMoniker": "Core\\ValueObjects\\Money.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\ValueObjects\\Money.cs",
-              "RelativeToolTip": "Core\\ValueObjects\\Money.cs",
-              "ViewState": "AgIAAGcAAAAAAAAAAAAqwIEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:18:25.184Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "GameEnums.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Enums\\GameEnums.cs",
-              "RelativeDocumentMoniker": "Core\\Enums\\GameEnums.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Core\\Enums\\GameEnums.cs",
-              "RelativeToolTip": "Core\\Enums\\GameEnums.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAqwJQAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-02T04:18:00.744Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 40,
               "Title": "Fix-MomotetsuProject.ps1",
               "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\Fix-MomotetsuProject.ps1",
               "RelativeDocumentMoniker": "Fix-MomotetsuProject.ps1",
@@ -580,18 +689,6 @@
               "ViewState": "AgIAACAAAAAAAAAAAAAAACAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2025-07-01T15:50:09.509Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\lions\\source\\repos\\MomotetsuGame\\MainWindow.xaml.cs",
-              "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-01T15:42:17.604Z"
             }
           ]
         }

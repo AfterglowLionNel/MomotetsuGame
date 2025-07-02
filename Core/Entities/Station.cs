@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MomotetsuGame.Core.ValueObjects;
 using MomotetsuGame.Core.Enums;
-using Newtonsoft.Json.Linq;
 
 namespace MomotetsuGame.Core.Entities
 {
@@ -12,9 +11,6 @@ namespace MomotetsuGame.Core.Entities
     /// </summary>
     public class Station
     {
-        private List<Station> _connectedStations;
-        private List<Property> _properties;
-
         /// <summary>
         /// 駅ID
         /// </summary>
@@ -26,17 +22,12 @@ namespace MomotetsuGame.Core.Entities
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// 駅名（短縮形）- UI表示用
-        /// </summary>
-        public string ShortName { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 駅の位置（マップ上の座標）
+        /// 駅の場所（座標）
         /// </summary>
         public Coordinate Location { get; set; }
 
         /// <summary>
-        /// 駅の種別
+        /// 駅の種類
         /// </summary>
         public StationType Type { get; set; }
 
@@ -46,70 +37,41 @@ namespace MomotetsuGame.Core.Entities
         public Region Region { get; set; }
 
         /// <summary>
-        /// 駅で購入可能な物件リスト
+        /// この駅の物件リスト
         /// </summary>
-        public List<Property> Properties
-        {
-            get => _properties;
-            set => _properties = value ?? new List<Property>();
-        }
+        public List<Property> Properties { get; set; }
 
         /// <summary>
         /// 接続されている駅のリスト
         /// </summary>
-        public List<Station> ConnectedStations
-        {
-            get => _connectedStations;
-            set => _connectedStations = value ?? new List<Station>();
-        }
+        public List<Station> ConnectedStations { get; set; }
 
         /// <summary>
-        /// カード売り場があるかどうか
+        /// カード売り場があるか
         /// </summary>
         public bool HasCardShop { get; set; }
 
         /// <summary>
-        /// 目的地として設定されているかどうか
+        /// 目的地かどうか
         /// </summary>
         public bool IsDestination { get; set; }
 
         /// <summary>
-        /// 分岐点かどうか（3つ以上の駅と接続）
+        /// 分岐点かどうか
         /// </summary>
-        public bool IsBranchPoint => ConnectedStations.Count >= 3;
-
-        /// <summary>
-        /// 駅の色（UI表示用）
-        /// </summary>
-        public string TypeColor => GetStationTypeColor();
-
-        /// <summary>
-        /// マップ上のX座標
-        /// </summary>
-        public double X => Location.X;
-
-        /// <summary>
-        /// マップ上のY座標
-        /// </summary>
-        public double Y => Location.Y;
-
-        /// <summary>
-        /// 特殊駅用の追加パラメータ
-        /// </summary>
-        public Dictionary<string, object> SpecialParameters { get; set; }
+        public bool IsBranchPoint => ConnectedStations.Count > 2;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public Station()
         {
-            _connectedStations = new List<Station>();
-            _properties = new List<Property>();
-            SpecialParameters = new Dictionary<string, object>();
+            Properties = new List<Property>();
+            ConnectedStations = new List<Station>();
         }
 
         /// <summary>
-        /// 指定IDの駅を作成（ファクトリメソッド）
+        /// 駅を作成（ファクトリメソッド）
         /// </summary>
         public static Station Create(int id, string name, double x, double y, StationType type, Region region)
         {
@@ -117,7 +79,6 @@ namespace MomotetsuGame.Core.Entities
             {
                 Id = id,
                 Name = name,
-                ShortName = name.Length > 3 ? name.Substring(0, 3) : name,
                 Location = new Coordinate(x, y),
                 Type = type,
                 Region = region
@@ -125,36 +86,15 @@ namespace MomotetsuGame.Core.Entities
         }
 
         /// <summary>
-        /// 駅を接続
+        /// 物件駅を作成
         /// </summary>
-        public void ConnectTo(Station other)
+        public static Station CreatePropertyStation(int id, string name, double x, double y, Region region)
         {
-            if (other == null || other == this) return;
-
-            if (!ConnectedStations.Contains(other))
-            {
-                ConnectedStations.Add(other);
-            }
-
-            if (!other.ConnectedStations.Contains(this))
-            {
-                other.ConnectedStations.Add(this);
-            }
+            return Create(id, name, x, y, StationType.Property, region);
         }
 
         /// <summary>
-        /// 駅の接続を解除
-        /// </summary>
-        public void DisconnectFrom(Station other)
-        {
-            if (other == null) return;
-
-            ConnectedStations.Remove(other);
-            other.ConnectedStations.Remove(this);
-        }
-
-        /// <summary>
-        /// 指定駅への距離を計算
+        /// 別の駅までの距離を計算
         /// </summary>
         public double DistanceTo(Station other)
         {
@@ -163,23 +103,7 @@ namespace MomotetsuGame.Core.Entities
         }
 
         /// <summary>
-        /// 指定駅と直接接続されているか
-        /// </summary>
-        public bool IsConnectedTo(Station other)
-        {
-            return ConnectedStations.Contains(other);
-        }
-
-        /// <summary>
-        /// 購入可能な物件を取得
-        /// </summary>
-        public List<Property> GetAvailableProperties()
-        {
-            return Properties.Where(p => p.Owner == null).ToList();
-        }
-
-        /// <summary>
-        /// 指定プレイヤーが独占しているかチェック
+        /// 駅が特定のプレイヤーに独占されているかチェック
         /// </summary>
         public bool IsMonopolizedBy(Player player)
         {
@@ -188,59 +112,69 @@ namespace MomotetsuGame.Core.Entities
         }
 
         /// <summary>
-        /// 駅種別に応じた色を取得
+        /// 購入可能な物件数を取得
         /// </summary>
-        private string GetStationTypeColor()
+        public int GetAvailablePropertyCount()
+        {
+            return Properties.Count(p => p.Owner == null);
+        }
+
+        /// <summary>
+        /// 特定プレイヤーが所有する物件数を取得
+        /// </summary>
+        public int GetPropertyCountOwnedBy(Player player)
+        {
+            return Properties.Count(p => p.Owner == player);
+        }
+
+        /// <summary>
+        /// 駅の総物件価値を取得
+        /// </summary>
+        public Money GetTotalPropertyValue()
+        {
+            return Properties.Aggregate(Money.Zero, (total, prop) => total + prop.CurrentPrice);
+        }
+
+        /// <summary>
+        /// 駅の色を取得（UI表示用）
+        /// </summary>
+        public string GetStationColor()
         {
             return Type switch
             {
-                StationType.Property => "#4169E1",      // RoyalBlue
-                StationType.CardShop => "#FF8C00",      // DarkOrange
-                StationType.Plus => "#32CD32",          // LimeGreen
-                StationType.Minus => "#DC143C",         // Crimson
-                StationType.NiceCard => "#FFD700",      // Gold
-                StationType.SuperCard => "#FF1493",     // DeepPink
-                StationType.CardExchange => "#9370DB",  // MediumPurple
-                StationType.Lottery => "#FF69B4",       // HotPink
-                _ => "#808080"                          // Gray
+                StationType.Property => "#4169E1",     // RoyalBlue
+                StationType.CardShop => "#FF6347",     // Tomato
+                StationType.Plus => "#32CD32",         // LimeGreen
+                StationType.Minus => "#DC143C",        // Crimson
+                StationType.NiceCard => "#FFD700",     // Gold
+                StationType.SuperCard => "#FF1493",    // DeepPink
+                StationType.CardExchange => "#9370DB", // MediumPurple
+                StationType.Lottery => "#FFA500",      // Orange
+                _ => "#808080"                         // Gray
             };
         }
 
         /// <summary>
-        /// プラス駅のボーナス金額を取得
+        /// 短縮名を取得（地図表示用）
         /// </summary>
-        public Money GetPlusBonus()
+        public string GetShortName()
         {
-            if (Type != StationType.Plus) return Money.Zero;
-
-            // 基本金額（1000万円～1億円）
-            var random = new Random();
-            var baseAmount = random.Next(10, 101) * 1000000L;
-
-            // 地域ボーナス
-            var regionBonus = Region switch
+            // 長い駅名は短縮
+            if (Name.Length > 3)
             {
-                Region.Hokkaido => 1.2,
-                Region.Kanto => 1.5,
-                Region.Kinki => 1.4,
-                _ => 1.0
-            };
+                // 「駅」を除去
+                var shortName = Name.Replace("駅", "");
 
-            return new Money((long)(baseAmount * regionBonus));
-        }
+                // それでも長い場合は最初の3文字
+                if (shortName.Length > 3)
+                {
+                    return shortName.Substring(0, 3);
+                }
 
-        /// <summary>
-        /// マイナス駅のペナルティ金額を取得
-        /// </summary>
-        public Money GetMinusPenalty()
-        {
-            if (Type != StationType.Minus) return Money.Zero;
+                return shortName;
+            }
 
-            // 基本金額（1000万円～5000万円）
-            var random = new Random();
-            var baseAmount = random.Next(10, 51) * 1000000L;
-
-            return new Money(baseAmount);
+            return Name;
         }
 
         /// <summary>
@@ -248,22 +182,22 @@ namespace MomotetsuGame.Core.Entities
         /// </summary>
         public override string ToString()
         {
-            return $"{Name}駅 ({Type})";
+            return $"{Name} ({Type}) - 物件数: {Properties.Count}";
         }
     }
 
     /// <summary>
-    /// 駅ネットワーク管理クラス
+    /// 駅ネットワーク（全駅を管理）
     /// </summary>
     public class StationNetwork
     {
-        private readonly List<Station> _stations;
-        private readonly Dictionary<int, Station> _stationMap;
+        private readonly Dictionary<int, Station> _stations;
+        private readonly List<(int from, int to)> _connections;
 
         public StationNetwork()
         {
-            _stations = new List<Station>();
-            _stationMap = new Dictionary<int, Station>();
+            _stations = new Dictionary<int, Station>();
+            _connections = new List<(int, int)>();
         }
 
         /// <summary>
@@ -271,40 +205,70 @@ namespace MomotetsuGame.Core.Entities
         /// </summary>
         public void AddStation(Station station)
         {
-            if (!_stationMap.ContainsKey(station.Id))
+            _stations[station.Id] = station;
+        }
+
+        /// <summary>
+        /// 駅間の接続を追加
+        /// </summary>
+        public void AddConnection(int fromId, int toId)
+        {
+            if (_stations.TryGetValue(fromId, out var fromStation) &&
+                _stations.TryGetValue(toId, out var toStation))
             {
-                _stations.Add(station);
-                _stationMap[station.Id] = station;
+                if (!fromStation.ConnectedStations.Contains(toStation))
+                {
+                    fromStation.ConnectedStations.Add(toStation);
+                    toStation.ConnectedStations.Add(fromStation);
+                    _connections.Add((fromId, toId));
+                }
             }
         }
 
         /// <summary>
-        /// IDで駅を取得
+        /// IDから駅を取得
         /// </summary>
         public Station? GetStation(int id)
         {
-            return _stationMap.TryGetValue(id, out var station) ? station : null;
+            return _stations.TryGetValue(id, out var station) ? station : null;
         }
 
         /// <summary>
         /// 全駅を取得
         /// </summary>
-        public IReadOnlyList<Station> AllStations => _stations;
-
-        /// <summary>
-        /// 地域で駅を検索
-        /// </summary>
-        public List<Station> GetStationsByRegion(Region region)
+        public List<Station> GetAllStations()
         {
-            return _stations.Where(s => s.Region == region).ToList();
+            return _stations.Values.ToList();
         }
 
         /// <summary>
-        /// 種別で駅を検索
+        /// 特定タイプの駅を取得
         /// </summary>
         public List<Station> GetStationsByType(StationType type)
         {
-            return _stations.Where(s => s.Type == type).ToList();
+            return _stations.Values.Where(s => s.Type == type).ToList();
+        }
+
+        /// <summary>
+        /// 特定地域の駅を取得
+        /// </summary>
+        public List<Station> GetStationsByRegion(Region region)
+        {
+            return _stations.Values.Where(s => s.Region == region).ToList();
+        }
+
+        /// <summary>
+        /// 物件駅をランダムに取得
+        /// </summary>
+        public Station? GetRandomPropertyStation(Random? random = null)
+        {
+            random ??= new Random();
+            var propertyStations = GetStationsByType(StationType.Property);
+
+            if (propertyStations.Count == 0)
+                return null;
+
+            return propertyStations[random.Next(propertyStations.Count)];
         }
     }
 }

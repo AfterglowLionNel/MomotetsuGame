@@ -2,38 +2,70 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MomotetsuGame.Core.Entities;
+using MomotetsuGame.Core.ValueObjects;
 
-namespace MomotetsuGame.Application.GameLogic
+namespace MomotetsuGame.Application.Services
 {
     /// <summary>
-    /// 経路計算サービス
+    /// 経路計算サービスのインターフェース
     /// </summary>
-    public class RouteCalculator
+    public interface IRouteCalculator
     {
-        private readonly StationNetwork _stationNetwork;
-
-        public RouteCalculator(StationNetwork stationNetwork)
-        {
-            _stationNetwork = stationNetwork ?? throw new ArgumentNullException(nameof(stationNetwork));
-        }
-
         /// <summary>
         /// 指定された歩数で到達可能な駅を計算
         /// </summary>
-        public List<Station> CalculateReachableStations(Station start, int steps)
-        {
-            if (start == null) throw new ArgumentNullException(nameof(start));
-            if (steps <= 0) return new List<Station> { start };
+        List<Station> GetReachableStations(Station from, int steps);
 
-            var visited = new HashSet<int>();
+        /// <summary>
+        /// 2駅間の最短経路を計算
+        /// </summary>
+        List<Station> GetShortestRoute(Station from, Station to);
+
+        /// <summary>
+        /// 指定された歩数での移動経路を計算
+        /// </summary>
+        List<Station> CalculateRoute(Station from, int steps);
+
+        /// <summary>
+        /// 分岐点から選択した方向での経路を再計算
+        /// </summary>
+        List<Station> RecalculateRoute(Station branchPoint, Station selectedNext, int remainingSteps);
+
+        /// <summary>
+        /// 目的地までの最短距離を計算
+        /// </summary>
+        int GetDistanceToDestination(Station from, Station destination);
+    }
+
+    /// <summary>
+    /// 経路計算サービスの実装
+    /// </summary>
+    public class RouteCalculator : IRouteCalculator
+    {
+        /// <summary>
+        /// 指定された歩数で到達可能な駅を計算
+        /// </summary>
+        public List<Station> GetReachableStations(Station from, int steps)
+        {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
+            if (steps < 0)
+                throw new ArgumentException("歩数は0以上である必要があります。", nameof(steps));
+
             var reachable = new HashSet<Station>();
+            var visited = new HashSet<Station>();
             var queue = new Queue<(Station station, int remainingSteps)>();
 
-            queue.Enqueue((start, steps));
+            queue.Enqueue((from, steps));
 
             while (queue.Count > 0)
             {
                 var (current, remaining) = queue.Dequeue();
+
+                if (visited.Contains(current))
+                    continue;
+
+                visited.Add(current);
 
                 if (remaining == 0)
                 {
@@ -41,14 +73,14 @@ namespace MomotetsuGame.Application.GameLogic
                     continue;
                 }
 
-                if (visited.Contains(current.Id)) continue;
-                visited.Add(current.Id);
-
+                // 隣接する駅を探索
                 foreach (var next in current.ConnectedStations)
                 {
-                    if (!visited.Contains(next.Id))
+                    if (!visited.Contains(next))
                     {
                         queue.Enqueue((next, remaining - 1));
+
+                        // 通過可能な駅も記録（分岐選択用）
                         if (remaining == 1)
                         {
                             reachable.Add(next);
@@ -61,26 +93,91 @@ namespace MomotetsuGame.Application.GameLogic
         }
 
         /// <summary>
-        /// 移動経路を計算（複数の到達可能駅がある場合は選択が必要）
+        /// 2駅間の最短経路を計算（ダイクストラ法）
         /// </summary>
-        public List<Station> CalculateRoute(Station start, int steps)
+        public List<Station> GetShortestRoute(Station from, Station to)
         {
-            if (start == null) throw new ArgumentNullException(nameof(start));
-            if (steps <= 0) return new List<Station> { start };
+            if (from == null || to == null)
+                throw new ArgumentNullException();
 
-            var route = new List<Station> { start };
-            var current = start;
+            if (from == to)
+                return new List<Station> { from };
+
+            var distances = new Dictionary<Station, int>();
+            var previous = new Dictionary<Station, Station?>();
+            var unvisited = new HashSet<Station>();
+
+            // 初期化
+            distances[from] = 0;
+            unvisited.Add(from);
+
+            // BFSで探索
+            var queue = new Queue<Station>();
+            queue.Enqueue(from);
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+
+                if (current == to)
+                    break;
+
+                foreach (var neighbor in current.ConnectedStations)
+                {
+                    var tentativeDistance = distances[current] + 1;
+
+                    if (!distances.ContainsKey(neighbor) || tentativeDistance < distances[neighbor])
+                    {
+                        distances[neighbor] = tentativeDistance;
+                        previous[neighbor] = current;
+                        queue.Enqueue(neighbor);
+                    }
+                }
+            }
+
+            // 経路を復元
+            var path = new List<Station>();
+            var node = to;
+
+            while (node != null)
+            {
+                path.Add(node);
+                if (node == from)
+                    break;
+
+                if (previous.TryGetValue(node, out var prev))
+                    node = prev;
+                else
+                    return new List<Station>(); // 到達不可能
+            }
+
+            path.Reverse();
+            return path;
+        }
+
+        /// <summary>
+        /// 指定された歩数での移動経路を計算
+        /// </summary>
+        public List<Station> CalculateRoute(Station from, int steps)
+        {
+            if (from == null)
+                throw new ArgumentNullException(nameof(from));
+            if (steps <= 0)
+                return new List<Station> { from };
+
+            var route = new List<Station> { from };
+            var current = from;
             var remainingSteps = steps;
 
             while (remainingSteps > 0)
             {
                 var nextStations = current.ConnectedStations
-                    .Where(s => !route.Contains(s) || route.Count == 1) // 最初の駅には戻れる
+                    .Where(s => !route.Contains(s) || route.Count == 1) // 戻ることは最初の1歩目のみ許可
                     .ToList();
 
                 if (nextStations.Count == 0)
                 {
-                    // 行き止まりの場合
+                    // 行き止まりの場合は停止
                     break;
                 }
                 else if (nextStations.Count == 1)
@@ -92,11 +189,9 @@ namespace MomotetsuGame.Application.GameLogic
                 }
                 else
                 {
-                    // 分岐点（選択が必要）
-                    // ここでは仮に最初の駅を選択（実際のゲームではプレイヤーが選択）
-                    current = nextStations[0];
-                    route.Add(current);
-                    remainingSteps--;
+                    // 分岐点の場合は一旦停止（UIで選択を待つ）
+                    route.Add(null!); // 分岐点マーカー
+                    break;
                 }
             }
 
@@ -104,233 +199,134 @@ namespace MomotetsuGame.Application.GameLogic
         }
 
         /// <summary>
-        /// 2駅間の最短距離を計算（ダイクストラ法）
+        /// 分岐点から選択した方向での経路を再計算
         /// </summary>
-        public int CalculateShortestDistance(Station start, Station end)
+        public List<Station> RecalculateRoute(Station branchPoint, Station selectedNext, int remainingSteps)
         {
-            if (start == null || end == null) return int.MaxValue;
-            if (start == end) return 0;
+            if (branchPoint == null || selectedNext == null)
+                throw new ArgumentNullException();
 
-            var distances = new Dictionary<int, int>();
-            var visited = new HashSet<int>();
-            var queue = new PriorityQueue<Station, int>();
+            if (!branchPoint.ConnectedStations.Contains(selectedNext))
+                throw new ArgumentException("選択された駅は分岐点から接続されていません。");
 
-            // 初期化
-            foreach (var station in _stationNetwork.AllStations)
+            var route = new List<Station> { selectedNext };
+            remainingSteps--;
+
+            if (remainingSteps > 0)
             {
-                distances[station.Id] = int.MaxValue;
+                var continuedRoute = CalculateRoute(selectedNext, remainingSteps);
+                route.AddRange(continuedRoute.Skip(1)); // 最初の駅は重複するので除外
             }
-            distances[start.Id] = 0;
-            queue.Enqueue(start, 0);
+
+            return route;
+        }
+
+        /// <summary>
+        /// 目的地までの最短距離を計算
+        /// </summary>
+        public int GetDistanceToDestination(Station from, Station destination)
+        {
+            if (from == null || destination == null)
+                return int.MaxValue;
+
+            var route = GetShortestRoute(from, destination);
+            return route.Count > 0 ? route.Count - 1 : int.MaxValue;
+        }
+
+        /// <summary>
+        /// 経路上の特殊マスを検出
+        /// </summary>
+        public List<(Station station, int distance)> FindSpecialStationsOnRoute(Station from, int maxDistance)
+        {
+            var specialStations = new List<(Station, int)>();
+            var visited = new HashSet<Station>();
+            var queue = new Queue<(Station station, int distance)>();
+
+            queue.Enqueue((from, 0));
 
             while (queue.Count > 0)
             {
-                var current = queue.Dequeue();
+                var (current, distance) = queue.Dequeue();
 
-                if (visited.Contains(current.Id)) continue;
-                visited.Add(current.Id);
+                if (visited.Contains(current) || distance > maxDistance)
+                    continue;
 
-                if (current.Id == end.Id)
+                visited.Add(current);
+
+                // 特殊駅かチェック
+                if (current != from && current.Type != Core.Enums.StationType.Property)
                 {
-                    return distances[end.Id];
+                    specialStations.Add((current, distance));
                 }
 
-                foreach (var neighbor in current.ConnectedStations)
+                // 隣接駅を探索
+                foreach (var next in current.ConnectedStations)
                 {
-                    if (!visited.Contains(neighbor.Id))
+                    if (!visited.Contains(next))
                     {
-                        var newDistance = distances[current.Id] + 1;
-                        if (newDistance < distances[neighbor.Id])
-                        {
-                            distances[neighbor.Id] = newDistance;
-                            queue.Enqueue(neighbor, newDistance);
-                        }
+                        queue.Enqueue((next, distance + 1));
                     }
                 }
             }
 
-            return int.MaxValue; // 到達不可能
+            return specialStations.OrderBy(s => s.distance).ToList();
         }
 
         /// <summary>
-        /// 最短経路を計算
+        /// 経路選択のヒントを生成
         /// </summary>
-        public List<Station>? CalculateShortestPath(Station start, Station end)
+        public RouteHint GetRouteHint(Station from, Station destination, int steps)
         {
-            if (start == null || end == null) return null;
-            if (start == end) return new List<Station> { start };
+            var hint = new RouteHint();
 
-            var distances = new Dictionary<int, int>();
-            var previous = new Dictionary<int, Station?>();
-            var visited = new HashSet<int>();
-            var queue = new PriorityQueue<Station, int>();
-
-            // 初期化
-            foreach (var station in _stationNetwork.AllStations)
+            // 各選択肢の評価
+            foreach (var next in from.ConnectedStations)
             {
-                distances[station.Id] = int.MaxValue;
-                previous[station.Id] = null;
-            }
-            distances[start.Id] = 0;
-            queue.Enqueue(start, 0);
-
-            while (queue.Count > 0)
-            {
-                var current = queue.Dequeue();
-
-                if (visited.Contains(current.Id)) continue;
-                visited.Add(current.Id);
-
-                if (current.Id == end.Id)
+                var evaluation = new RouteEvaluation
                 {
-                    // 経路を構築
-                    var path = new List<Station>();
-                    var node = end;
-                    while (node != null)
-                    {
-                        path.Insert(0, node);
-                        node = previous[node.Id];
-                    }
-                    return path;
-                }
+                    NextStation = next,
+                    DistanceToDestination = GetDistanceToDestination(next, destination)
+                };
 
-                foreach (var neighbor in current.ConnectedStations)
-                {
-                    if (!visited.Contains(neighbor.Id))
-                    {
-                        var newDistance = distances[current.Id] + 1;
-                        if (newDistance < distances[neighbor.Id])
-                        {
-                            distances[neighbor.Id] = newDistance;
-                            previous[neighbor.Id] = current;
-                            queue.Enqueue(neighbor, newDistance);
-                        }
-                    }
-                }
+                // この方向に進んだ場合の到達可能駅を確認
+                var reachableFromNext = GetReachableStations(next, steps - 1);
+
+                // 良い駅（プラス駅、カード売り場）があるかチェック
+                evaluation.HasGoodStation = reachableFromNext.Any(s =>
+                    s.Type == Core.Enums.StationType.Plus ||
+                    s.Type == Core.Enums.StationType.CardShop);
+
+                // 悪い駅（マイナス駅）があるかチェック
+                evaluation.HasBadStation = reachableFromNext.Any(s =>
+                    s.Type == Core.Enums.StationType.Minus);
+
+                // 目的地に到達可能かチェック
+                evaluation.CanReachDestination = reachableFromNext.Contains(destination);
+
+                hint.Evaluations.Add(evaluation);
             }
 
-            return null; // 到達不可能
-        }
-
-        /// <summary>
-        /// 分岐点での選択肢を取得
-        /// </summary>
-        public List<RouteOption> GetRouteOptions(Station branchPoint, int remainingSteps)
-        {
-            if (branchPoint == null) throw new ArgumentNullException(nameof(branchPoint));
-
-            var options = new List<RouteOption>();
-
-            foreach (var nextStation in branchPoint.ConnectedStations)
-            {
-                var reachableFromNext = CalculateReachableStations(nextStation, remainingSteps - 1);
-
-                options.Add(new RouteOption
-                {
-                    NextStation = nextStation,
-                    ReachableStations = reachableFromNext,
-                    HasPropertyStations = reachableFromNext.Any(s => s.Type == Core.Enums.StationType.Property),
-                    HasPlusStations = reachableFromNext.Any(s => s.Type == Core.Enums.StationType.Plus),
-                    HasCardShops = reachableFromNext.Any(s => s.HasCardShop)
-                });
-            }
-
-            return options;
-        }
-
-        /// <summary>
-        /// 目的地への最適ルートを提案（AI用）
-        /// </summary>
-        public Station? SuggestBestRoute(Station current, Station destination, int steps)
-        {
-            if (current == null || destination == null) return null;
-
-            var options = current.ConnectedStations.ToList();
-            if (options.Count == 0) return null;
-            if (options.Count == 1) return options[0];
-
-            // 各選択肢から目的地への距離を計算
-            var optionScores = new Dictionary<Station, double>();
-
-            foreach (var option in options)
-            {
-                var distanceFromOption = CalculateShortestDistance(option, destination);
-                var reachableStations = CalculateReachableStations(option, steps - 1);
-
-                // スコア計算（距離が近いほど高スコア）
-                double score = 0;
-
-                // 基本スコア（距離の逆数）
-                if (distanceFromOption < int.MaxValue)
-                {
-                    score = 1000.0 / (distanceFromOption + 1);
-                }
-
-                // 目的地に到達可能な場合はボーナス
-                if (reachableStations.Contains(destination))
-                {
-                    score += 500;
-                }
-
-                // 物件駅があればボーナス
-                var propertyStationCount = reachableStations.Count(s => s.Type == Core.Enums.StationType.Property);
-                score += propertyStationCount * 10;
-
-                optionScores[option] = score;
-            }
-
-            // 最高スコアの選択肢を返す
-            return optionScores.OrderByDescending(kvp => kvp.Value).FirstOrDefault().Key;
+            return hint;
         }
     }
 
     /// <summary>
-    /// ルート選択肢
+    /// 経路選択のヒント
     /// </summary>
-    public class RouteOption
+    public class RouteHint
+    {
+        public List<RouteEvaluation> Evaluations { get; set; } = new List<RouteEvaluation>();
+    }
+
+    /// <summary>
+    /// 経路の評価
+    /// </summary>
+    public class RouteEvaluation
     {
         public Station NextStation { get; set; } = null!;
-        public List<Station> ReachableStations { get; set; } = new List<Station>();
-        public bool HasPropertyStations { get; set; }
-        public bool HasPlusStations { get; set; }
-        public bool HasCardShops { get; set; }
-    }
-
-    /// <summary>
-    /// 優先度付きキュー（.NET 6.0以降で標準搭載）
-    /// </summary>
-    public class PriorityQueue<TElement, TPriority> where TPriority : IComparable<TPriority>
-    {
-        private readonly SortedDictionary<TPriority, Queue<TElement>> _items = new();
-
-        public int Count { get; private set; }
-
-        public void Enqueue(TElement element, TPriority priority)
-        {
-            if (!_items.TryGetValue(priority, out var queue))
-            {
-                queue = new Queue<TElement>();
-                _items[priority] = queue;
-            }
-            queue.Enqueue(element);
-            Count++;
-        }
-
-        public TElement Dequeue()
-        {
-            if (Count == 0) throw new InvalidOperationException("Queue is empty");
-
-            var firstPair = _items.First();
-            var queue = firstPair.Value;
-            var element = queue.Dequeue();
-
-            if (queue.Count == 0)
-            {
-                _items.Remove(firstPair.Key);
-            }
-
-            Count--;
-            return element;
-        }
+        public int DistanceToDestination { get; set; }
+        public bool CanReachDestination { get; set; }
+        public bool HasGoodStation { get; set; }
+        public bool HasBadStation { get; set; }
     }
 }

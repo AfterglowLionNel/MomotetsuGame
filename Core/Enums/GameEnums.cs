@@ -21,10 +21,10 @@ namespace MomotetsuGame.Core.Enums
     public enum PropertyCategory
     {
         Agriculture,   // 農林
-        Fishery,       // 水産
-        Commerce,      // 商業
-        Industry,      // 工業
-        Tourism        // 観光
+        Fishery,      // 水産
+        Commerce,     // 商業
+        Industry,     // 工業
+        Tourism       // 観光
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ namespace MomotetsuGame.Core.Enums
     }
 
     /// <summary>
-    /// カードレアリティ
+    /// カードレア度
     /// </summary>
     public enum CardRarity
     {
@@ -52,7 +52,7 @@ namespace MomotetsuGame.Core.Enums
     }
 
     /// <summary>
-    /// プレイヤー状態
+    /// プレイヤーステータス
     /// </summary>
     public enum PlayerStatus
     {
@@ -98,8 +98,28 @@ namespace MomotetsuGame.Core.Enums
     public enum GameMode
     {
         Normal,        // 通常モード
-        ShortBattle,   // 3年決戦
-        Custom         // カスタム
+        ThreeYears,    // 3年決戦
+        Custom         // カスタムモード
+    }
+
+    /// <summary>
+    /// COM難易度
+    /// </summary>
+    public enum ComDifficulty
+    {
+        Weak,          // 弱い
+        Normal,        // 普通
+        Strong         // 強い
+    }
+
+    /// <summary>
+    /// アニメーション速度
+    /// </summary>
+    public enum AnimationSpeed
+    {
+        Slow,          // ゆっくり
+        Normal,        // 普通
+        Fast           // 速い
     }
 
     /// <summary>
@@ -107,43 +127,13 @@ namespace MomotetsuGame.Core.Enums
     /// </summary>
     public enum PlayerColor
     {
-        Blue,
-        Red,
-        Yellow,
-        Green
-    }
-
-    /// <summary>
-    /// ボンビータイプ
-    /// </summary>
-    public enum BonbyType
-    {
-        None,
-        Mini,          // ミニボンビー
-        Normal,        // ボンビー
-        King,          // キングボンビー
-        Pokon,         // ポコン
-        Bonbiras       // ボンビラス星
-    }
-
-    /// <summary>
-    /// アクションタイプ
-    /// </summary>
-    public enum ActionType
-    {
-        RollDice,      // サイコロを振る
-        UseCard,       // カードを使う
-        CheckStatus,   // ステータス確認
-        Settings       // 設定
-    }
-
-    /// <summary>
-    /// AI戦略
-    /// </summary>
-    public enum AIStrategy
-    {
-        Passive,       // 消極的
-        Balanced,      // バランス型
-        Aggressive     // 攻撃的
+        Blue,          // 青
+        Red,           // 赤
+        Green,         // 緑
+        Yellow,        // 黄
+        Purple,        // 紫
+        Orange,        // オレンジ
+        Pink,          // ピンク
+        Cyan           // シアン
     }
 }

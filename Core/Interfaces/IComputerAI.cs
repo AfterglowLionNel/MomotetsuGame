@@ -1,289 +1,185 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using MomotetsuGame.Core.Entities;
-using MomotetsuGame.Core.ValueObjects;
-using MomotetsuGame.Core.Enums;
 
 namespace MomotetsuGame.Core.Interfaces
 {
     /// <summary>
-    /// コンピュータAIのインターフェース
+    /// イベントバスのインターフェース
     /// </summary>
-    public interface IComputerAI
+    public interface IEventBus
     {
         /// <summary>
-        /// AI難易度
+        /// イベントを発行
         /// </summary>
-        ComDifficulty Difficulty { get; set; }
+        void Publish<TEvent>(TEvent eventData) where TEvent : class;
 
         /// <summary>
-        /// 行動を決定
+        /// イベントを購読
         /// </summary>
-        /// <param name="context">ゲームコンテキスト</param>
-        /// <param name="player">操作するプレイヤー</param>
-        /// <returns>決定した行動</returns>
-        Task<ActionDecision> DecideAction(AIContext context, Player player);
+        IDisposable Subscribe<TEvent>(Action<TEvent> handler) where TEvent : class;
 
         /// <summary>
-        /// 分岐点での方向を選択
+        /// 非同期イベントを購読
         /// </summary>
-        /// <param name="options">選択可能な駅</param>
-        /// <param name="player">操作するプレイヤー</param>
-        /// <param name="context">ゲームコンテキスト</param>
-        /// <returns>選択した駅</returns>
-        Task<Station> SelectDestination(List<Station> options, Player player, AIContext context);
-
-        /// <summary>
-        /// 購入する物件を選択
-        /// </summary>
-        /// <param name="available">購入可能な物件</param>
-        /// <param name="player">操作するプレイヤー</param>
-        /// <param name="context">ゲームコンテキスト</param>
-        /// <returns>購入する物件のリスト</returns>
-        Task<List<Property>> SelectPropertiesToBuy(List<Property> available, Player player, AIContext context);
-
-        /// <summary>
-        /// 使用するカードを選択
-        /// </summary>
-        /// <param name="available">使用可能なカード</param>
-        /// <param name="player">操作するプレイヤー</param>
-        /// <param name="context">ゲームコンテキスト</param>
-        /// <returns>使用するカード（使用しない場合null）</returns>
-        Task<Card?> SelectCardToUse(List<Card> available, Player player, AIContext context);
-
-        /// <summary>
-        /// カード売り場で購入するカードを選択
-        /// </summary>
-        /// <param name="available">購入可能なカード</param>
-        /// <param name="player">操作するプレイヤー</param>
-        /// <param name="context">ゲームコンテキスト</param>
-        /// <returns>購入するカード（購入しない場合null）</returns>
-        Task<Card?> SelectCardToBuy(List<Card> available, Player player, AIContext context);
-
-        /// <summary>
-        /// 売却する物件を選択（資金不足時）
-        /// </summary>
-        /// <param name="properties">所有物件</param>
-        /// <param name="targetAmount">必要金額</param>
-        /// <param name="player">操作するプレイヤー</param>
-        /// <returns>売却する物件のリスト</returns>
-        Task<List<Property>> SelectPropertiesToSell(List<Property> properties, Money targetAmount, Player player);
+        IDisposable SubscribeAsync<TEvent>(Func<TEvent, Task> handler) where TEvent : class;
     }
 
     /// <summary>
-    /// AI用ゲームコンテキスト
+    /// ダイアログサービスのインターフェース
     /// </summary>
-    public class AIContext
+    public interface IDialogService
     {
         /// <summary>
-        /// 現在のゲーム状態
+        /// 確認ダイアログを表示
         /// </summary>
-        public GameState GameState { get; set; } = null!;
+        Task<bool> ShowConfirmationAsync(string message, string title = "確認");
 
         /// <summary>
-        /// 全プレイヤー情報
+        /// 情報ダイアログを表示
         /// </summary>
-        public List<Player> AllPlayers { get; set; } = new List<Player>();
+        Task ShowInformationAsync(string message, string title = "情報");
 
         /// <summary>
-        /// 現在の目的地
+        /// エラーダイアログを表示
         /// </summary>
-        public Station Destination { get; set; } = null!;
+        Task ShowErrorAsync(string message, string title = "エラー");
 
         /// <summary>
-        /// 目的地までの最短距離
+        /// 選択ダイアログを表示
         /// </summary>
-        public int DistanceToDestination { get; set; }
+        Task<T?> ShowSelectionAsync<T>(string message, T[] options, string title = "選択");
 
         /// <summary>
-        /// 1位との総資産差
+        /// カスタムダイアログを表示
         /// </summary>
-        public Money AssetGapToFirst { get; set; }
-
-        /// <summary>
-        /// ゲーム進行度（0.0〜1.0）
-        /// </summary>
-        public double GameProgress { get; set; }
-
-        /// <summary>
-        /// 利用可能な駅ネットワーク
-        /// </summary>
-        public StationNetwork StationNetwork { get; set; } = null!;
-
-        /// <summary>
-        /// 市場情報
-        /// </summary>
-        public PropertyMarket PropertyMarket { get; set; } = null!;
+        Task<TResult?> ShowDialogAsync<TResult>(object viewModel);
     }
 
     /// <summary>
-    /// AI行動決定結果
+    /// メッセージサービスのインターフェース
     /// </summary>
-    public class ActionDecision
+    public interface IMessageService
     {
         /// <summary>
-        /// 行動タイプ
+        /// 情報メッセージを表示
         /// </summary>
-        public ActionType Type { get; set; }
+        void ShowInfo(string message);
 
         /// <summary>
-        /// 選択したカード（カード使用時）
+        /// 警告メッセージを表示
         /// </summary>
-        public Card? SelectedCard { get; set; }
+        void ShowWarning(string message);
 
         /// <summary>
-        /// 優先度（0〜100）
+        /// エラーメッセージを表示
         /// </summary>
-        public int Priority { get; set; }
+        void ShowError(string message);
 
         /// <summary>
-        /// 理由（デバッグ用）
+        /// 成功メッセージを表示
         /// </summary>
-        public string Reason { get; set; } = string.Empty;
+        void ShowSuccess(string message);
     }
 
     /// <summary>
-    /// AI行動タイプ
+    /// ナビゲーションサービスのインターフェース
     /// </summary>
-    public enum ActionType
+    public interface INavigationService
     {
-        RollDice,      // サイコロを振る
-        UseCard,       // カードを使用
-        Wait           // 待機（特殊な場合）
+        /// <summary>
+        /// 指定されたビューに遷移
+        /// </summary>
+        Task NavigateToAsync(string viewName, object? parameter = null);
+
+        /// <summary>
+        /// 前の画面に戻る
+        /// </summary>
+        Task GoBackAsync();
+
+        /// <summary>
+        /// ナビゲーション可能かチェック
+        /// </summary>
+        bool CanGoBack { get; }
     }
 
     /// <summary>
-    /// AI戦略インターフェース
+    /// オーディオサービスのインターフェース
     /// </summary>
-    public interface IAIStrategy
+    public interface IAudioService
     {
         /// <summary>
-        /// 物件評価
+        /// BGMを再生
         /// </summary>
-        double EvaluateProperty(Property property, AIAnalysis analysis);
+        void PlayBgm(string bgmName, bool loop = true);
 
         /// <summary>
-        /// カード評価
+        /// BGMを停止
         /// </summary>
-        double EvaluateCard(Card card, AIAnalysis analysis);
+        void StopBgm(int fadeOutMs = 1000);
 
         /// <summary>
-        /// 経路評価
+        /// 効果音を再生
         /// </summary>
-        double EvaluateRoute(Station destination, AIAnalysis analysis);
+        void PlaySe(string seName);
 
         /// <summary>
-        /// リスク許容度を取得
+        /// BGM音量を設定
         /// </summary>
-        double GetRiskTolerance(AIAnalysis analysis);
+        void SetBgmVolume(float volume);
+
+        /// <summary>
+        /// 効果音音量を設定
+        /// </summary>
+        void SetSeVolume(float volume);
+
+        /// <summary>
+        /// ミュート設定
+        /// </summary>
+        bool IsMuted { get; set; }
     }
 
     /// <summary>
-    /// AI分析データ
+    /// セーブデータサービスのインターフェース
     /// </summary>
-    public class AIAnalysis
+    public interface ISaveDataService
     {
         /// <summary>
-        /// プレイヤーの順位
+        /// セーブデータの存在確認
         /// </summary>
-        public int PlayerRank { get; set; }
+        Task<bool> ExistsAsync(string saveId);
 
         /// <summary>
-        /// 目的地までの距離
+        /// セーブデータ一覧を取得
         /// </summary>
-        public int DistanceToDestination { get; set; }
+        Task<SaveDataInfo[]> GetSaveDataListAsync();
 
         /// <summary>
-        /// 所持金の割合（全プレイヤー中）
+        /// ゲームをセーブ
         /// </summary>
-        public double MoneyRatio { get; set; }
+        Task SaveAsync(string saveId, object gameState);
 
         /// <summary>
-        /// ゲーム進行度
+        /// ゲームをロード
         /// </summary>
-        public double TurnProgress { get; set; }
+        Task<T?> LoadAsync<T>(string saveId) where T : class;
 
         /// <summary>
-        /// ボンビーが付いているか
+        /// セーブデータを削除
         /// </summary>
-        public bool HasBonby { get; set; }
-
-        /// <summary>
-        /// 1位との総資産差
-        /// </summary>
-        public Money TopPlayerLead { get; set; }
-
-        /// <summary>
-        /// 独占可能な駅のリスト
-        /// </summary>
-        public List<Station> MonopolizableStations { get; set; } = new List<Station>();
-
-        /// <summary>
-        /// 脅威となるプレイヤー
-        /// </summary>
-        public List<Player> ThreateningPlayers { get; set; } = new List<Player>();
+        Task DeleteAsync(string saveId);
     }
 
     /// <summary>
-    /// AI性格タイプ
+    /// セーブデータ情報
     /// </summary>
-    public enum AIPersonality
+    public class SaveDataInfo
     {
-        Aggressive,    // 攻撃的（高額物件狙い、攻撃カード多用）
-        Defensive,     // 守備的（安定重視、防御カード優先）
-        Balanced,      // バランス型（状況に応じて変化）
-        Opportunistic, // 機会主義（独占狙い、カード収集）
-        Speedster      // スピード重視（移動カード優先）
-    }
-
-    /// <summary>
-    /// AIユーティリティ関数
-    /// </summary>
-    public static class AIUtility
-    {
-        /// <summary>
-        /// 目的地への最短距離を計算
-        /// </summary>
-        public static int CalculateDistanceToDestination(Station current, Station destination, StationNetwork network)
-        {
-            // TODO: ダイクストラ法などで実装
-            return 10; // 仮実装
-        }
-
-        /// <summary>
-        /// 独占可能性を評価
-        /// </summary>
-        public static double EvaluateMonopolyPotential(Player player, Station station)
-        {
-            var ownedCount = station.Properties.Count(p => p.Owner == player);
-            var totalCount = station.Properties.Count;
-
-            if (totalCount == 0) return 0;
-
-            var ratio = (double)ownedCount / totalCount;
-
-            // 既に半分以上所有している場合は高評価
-            if (ratio >= 0.5) return ratio * 2.0;
-
-            return ratio;
-        }
-
-        /// <summary>
-        /// プレイヤーの脅威度を評価
-        /// </summary>
-        public static double EvaluateThreatLevel(Player target, Player self)
-        {
-            var assetRatio = (double)target.TotalAssets.Value / self.TotalAssets.Value;
-            var rankDiff = self.Rank - target.Rank;
-
-            // 総資産が自分の2倍以上なら高脅威
-            if (assetRatio >= 2.0) return 1.0;
-
-            // 順位が上なら脅威度上昇
-            if (rankDiff > 0) return 0.5 + (rankDiff * 0.1);
-
-            return Math.Max(0, assetRatio - 1.0);
-        }
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public DateTime SavedAt { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public string PlayerName { get; set; } = string.Empty;
+        public long TotalAssets { get; set; }
     }
 }
