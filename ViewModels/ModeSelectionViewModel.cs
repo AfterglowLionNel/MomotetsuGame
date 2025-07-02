@@ -1,10 +1,9 @@
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using MomotetsuGame.Application.Commands;
-using MomotetsuGame.Services;
+using MomotetsuGame.Core.Enums;
+using MomotetsuGame.Core.Interfaces;
 
 namespace MomotetsuGame.ViewModels
 {
@@ -13,120 +12,113 @@ namespace MomotetsuGame.ViewModels
     /// </summary>
     public class ModeSelectionViewModel : INotifyPropertyChanged
     {
+        private readonly INavigationService _navigationService;
+        private readonly IAudioService _audioService;
+        private readonly ISaveDataService _saveDataService;
         private bool _hasSaveData;
 
-        /// <summary>
-        /// セーブデータが存在するか
-        /// </summary>
+        public ModeSelectionViewModel(
+            INavigationService navigationService,
+            IAudioService audioService,
+            ISaveDataService saveDataService)
+        {
+            _navigationService = navigationService;
+            _audioService = audioService;
+            _saveDataService = saveDataService;
+
+            InitializeCommands();
+            CheckSaveData();
+
+            // タイトルBGMを再生
+            _audioService.PlayBgm("title_theme", true);
+        }
+
+        #region Properties
+
         public bool HasSaveData
         {
             get => _hasSaveData;
             set => SetProperty(ref _hasSaveData, value);
         }
 
-        /// <summary>
-        /// つづきからコマンド
-        /// </summary>
-        public ICommand ContinueGameCommand { get; }
+        #endregion
 
-        /// <summary>
-        /// ひとりで桃鉄コマンド
-        /// </summary>
-        public ICommand SinglePlayCommand { get; }
+        #region Commands
 
-        /// <summary>
-        /// おまけコマンド
-        /// </summary>
-        public ICommand ShowExtrasCommand { get; }
+        public ICommand ContinueGameCommand { get; private set; } = null!;
+        public ICommand SinglePlayCommand { get; private set; } = null!;
+        public ICommand MultiPlayCommand { get; private set; } = null!;
+        public ICommand LocalPlayCommand { get; private set; } = null!;
+        public ICommand OnlinePlayCommand { get; private set; } = null!;
+        public ICommand ShowExtrasCommand { get; private set; } = null!;
+        public ICommand ShowTutorialCommand { get; private set; } = null!;
 
-        /// <summary>
-        /// 遊びかたコマンド
-        /// </summary>
-        public ICommand ShowTutorialCommand { get; }
-
-        /// <summary>
-        /// ウィンドウを閉じる要求イベント
-        /// </summary>
-        public event Action? CloseRequested;
-
-        /// <summary>
-        /// 画面遷移要求イベント
-        /// </summary>
-        public event Action<string, object?>? NavigateRequested;
-
-        public ModeSelectionViewModel()
+        private void InitializeCommands()
         {
-            // コマンドの初期化
-            ContinueGameCommand = new RelayCommand(ContinueGame, () => HasSaveData);
-            SinglePlayCommand = new RelayCommand(StartSinglePlay);
-            ShowExtrasCommand = new RelayCommand(ShowExtras);
-            ShowTutorialCommand = new RelayCommand(ShowTutorial);
+            ContinueGameCommand = new RelayCommand(
+                async () => await ContinueGame(),
+                () => HasSaveData);
 
-            // セーブデータの存在チェック
-            CheckSaveData();
+            SinglePlayCommand = new RelayCommand(
+                async () => await StartSinglePlay());
+
+            MultiPlayCommand = new RelayCommand(
+                () => ShowNotImplemented("みんなで桃鉄"),
+                () => false); // 未実装
+
+            LocalPlayCommand = new RelayCommand(
+                () => ShowNotImplemented("ちかくで桃鉄"),
+                () => false); // 未実装
+
+            OnlinePlayCommand = new RelayCommand(
+                () => ShowNotImplemented("ネットで桃鉄"),
+                () => false); // 未実装
+
+            ShowExtrasCommand = new RelayCommand(
+                () => ShowNotImplemented("おまけ"));
+
+            ShowTutorialCommand = new RelayCommand(
+                async () => await ShowTutorial());
         }
 
-        /// <summary>
-        /// セーブデータの存在をチェック
-        /// </summary>
-        private void CheckSaveData()
-        {
-            try
-            {
-                var saveDirectory = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "MomotetsuGame",
-                    "SaveData");
+        #endregion
 
-                if (Directory.Exists(saveDirectory))
-                {
-                    var saveFiles = Directory.GetFiles(saveDirectory, "*.save");
-                    HasSaveData = saveFiles.Length > 0;
-                }
-                else
-                {
-                    HasSaveData = false;
-                }
-            }
-            catch
-            {
-                HasSaveData = false;
-            }
+        #region Methods
+
+        private async void CheckSaveData()
+        {
+            var saves = await _saveDataService.GetSaveDataListAsync();
+            HasSaveData = saves.Length > 0;
         }
 
-        /// <summary>
-        /// つづきから
-        /// </summary>
-        private void ContinueGame()
+        private async Task ContinueGame()
         {
-            NavigateRequested?.Invoke("LoadGame", null);
+            _audioService.PlaySe("decide");
+            await _navigationService.NavigateToAsync("LoadGameView");
         }
 
-        /// <summary>
-        /// ひとりで桃鉄
-        /// </summary>
-        private void StartSinglePlay()
+        private async Task StartSinglePlay()
         {
-            NavigateRequested?.Invoke("GameSettings", new { Mode = "Single" });
+            _audioService.PlaySe("decide");
+            await _navigationService.NavigateToAsync("GameSettingsView", GameMode.SinglePlay);
         }
 
-        /// <summary>
-        /// おまけ
-        /// </summary>
-        private void ShowExtras()
+        private async Task ShowTutorial()
         {
-            NavigateRequested?.Invoke("Extras", null);
+            _audioService.PlaySe("decide");
+            await _navigationService.NavigateToAsync("TutorialView");
         }
 
-        /// <summary>
-        /// 遊びかた
-        /// </summary>
-        private void ShowTutorial()
+        private void ShowNotImplemented(string feature)
         {
-            NavigateRequested?.Invoke("Tutorial", null);
+            _audioService.PlaySe("cancel");
+            // TODO: メッセージ表示
         }
+
+        #endregion
 
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -136,11 +128,12 @@ namespace MomotetsuGame.ViewModels
 
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
-            if (System.Collections.Generic.EqualityComparer<T>.Default.Equals(field, value)) return false;
+            if (Equals(field, value)) return false;
             field = value;
             OnPropertyChanged(propertyName);
             return true;
         }
+
         #endregion
     }
 }

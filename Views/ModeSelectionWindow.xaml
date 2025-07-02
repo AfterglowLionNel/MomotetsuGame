@@ -4,292 +4,281 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="“‘¾˜Y“d“S•—ƒQ[ƒ€" 
+        Title="æ¡ƒå¤ªéƒŽé›»é‰„é¢¨ã‚²ãƒ¼ãƒ "
         Height="720" Width="1280"
         WindowStartupLocation="CenterScreen"
         Background="#FF87CEEB">
 
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Resources/Styles/ButtonStyles.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/Colors.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+	<Grid>
+		<!-- èƒŒæ™¯ã‚°ãƒ©ãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³ -->
+		<Grid.Background>
+			<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+				<GradientStop Color="#FF87CEEB" Offset="0"/>
+				<GradientStop Color="#FF4682B4" Offset="1"/>
+			</LinearGradientBrush>
+		</Grid.Background>
 
-    <Grid>
-        <!-- ”wŒiƒOƒ‰ƒf[ƒVƒ‡ƒ“ -->
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                <GradientStop Color="#FF87CEEB" Offset="0"/>
-                <GradientStop Color="#FFB0E0E6" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
+		<!-- ã‚¿ã‚¤ãƒˆãƒ« -->
+		<TextBlock Text="æ¡ƒå¤ªéƒŽé›»é‰„é¢¨ã‚²ãƒ¼ãƒ "
+                   FontSize="60"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Margin="0,50,0,0">
+			<TextBlock.Effect>
+				<DropShadowEffect ShadowDepth="4" Opacity="0.8"/>
+			</TextBlock.Effect>
+		</TextBlock>
 
-        <!-- ƒ^ƒCƒgƒ‹ƒƒSi‰¼j -->
-        <Border HorizontalAlignment="Center" 
-                VerticalAlignment="Top"
-                Margin="0,50,0,0"
-                Background="White"
-                CornerRadius="20"
-                Padding="40,20">
-            <TextBlock Text="“‘¾˜Y“d“S•—ƒQ[ƒ€" 
-                       FontSize="48" 
-                       FontWeight="Bold"
-                       Foreground="#FF4169E1">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="3" Color="Gray" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-        </Border>
-
-        <!-- ’nˆæ•\Ž¦ -->
-        <TextBlock Text="ŒQ”nŒ§E‘’Ã‰·ò" 
-                   FontSize="24" 
+		<!-- åœ°åŸŸé¸æŠžï¼ˆå³ä¸Šï¼‰ -->
+		<TextBlock Text="ç¾¤é¦¬çœŒãƒ»è‰æ´¥æ¸©æ³‰"
+                   FontSize="24"
                    FontWeight="Bold"
                    Foreground="White"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Top"
                    Margin="0,20,20,0">
-            <TextBlock.Effect>
-                <DropShadowEffect ShadowDepth="2" Opacity="0.8"/>
-            </TextBlock.Effect>
-        </TextBlock>
+			<TextBlock.Effect>
+				<DropShadowEffect ShadowDepth="2" Opacity="0.8"/>
+			</TextBlock.Effect>
+		</TextBlock>
 
-        <!-- ƒ‚[ƒh‘I‘ðƒ{ƒ^ƒ“ -->
-        <StackPanel VerticalAlignment="Center" 
+		<!-- ãƒ¢ãƒ¼ãƒ‰é¸æŠžãƒœã‚¿ãƒ³ -->
+		<StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                     Margin="100,0,0,0">
 
-            <!-- ‚Â‚Ã‚«‚©‚ç -->
-            <Button Style="{StaticResource ModeButtonStyle}"
-                    Command="{Binding ContinueGameCommand}"
-                    IsEnabled="{Binding HasSaveData}">
-                <Grid Width="400" Height="70">
-                    <Rectangle Fill="#FFFFB6C1" 
-                               RadiusX="35" RadiusY="35"
-                               Stroke="#FFE91E63" 
-                               StrokeThickness="3"/>
-                    <StackPanel Orientation="Horizontal" 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <Path Data="M12,2 L12,22 M7,7 L12,2 L17,7" 
-                              Stroke="#FF8B0000" 
-                              StrokeThickness="3"
-                              Width="30" Height="30"
-                              Margin="0,0,10,0"
-                              VerticalAlignment="Center"
-                              HorizontalAlignment="Center"
-                              RenderTransformOrigin="0.5,0.5">
-                            <Path.RenderTransform>
-                                <RotateTransform Angle="180"/>
-                            </Path.RenderTransform>
-                        </Path>
-                        <TextBlock Text="‚Â‚Ã‚«‚©‚ç" 
-                                   FontSize="28" 
-                                   FontWeight="Bold"
-                                   Foreground="#FF8B0000"/>
-                    </StackPanel>
-                </Grid>
-            </Button>
-
-            <!-- ‚Ð‚Æ‚è‚Å““S -->
-            <Button Style="{StaticResource ModeButtonStyle}"
-                    Command="{Binding SinglePlayCommand}"
-                    Margin="0,10,0,0">
-                <Grid Width="400" Height="70">
-                    <Rectangle Fill="#FF87CEEB" 
-                               RadiusX="35" RadiusY="35"
-                               Stroke="#FF4169E1" 
-                               StrokeThickness="3"/>
-                    <StackPanel Orientation="Horizontal" 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <Viewbox Width="40" Height="40" Margin="0,0,10,0">
-                            <Canvas Width="40" Height="40">
-                                <Rectangle Width="30" Height="20" 
-                                           Fill="#FF000080" 
-                                           Canvas.Left="5" Canvas.Top="10"
-                                           RadiusX="2" RadiusY="2"/>
-                                <Ellipse Width="8" Height="8" 
-                                         Fill="#FF000080" 
-                                         Canvas.Left="3" Canvas.Top="16"/>
-                                <Ellipse Width="8" Height="8" 
-                                         Fill="#FF000080" 
-                                         Canvas.Left="29" Canvas.Top="16"/>
-                            </Canvas>
-                        </Viewbox>
-                        <TextBlock Text="‚Ð‚Æ‚è‚Å““S" 
-                                   FontSize="28" 
-                                   FontWeight="Bold"
-                                   Foreground="#FF000080"/>
-                    </StackPanel>
-                </Grid>
-            </Button>
-
-            <!-- ‚Ý‚ñ‚È‚Å““Si–³Œøj -->
-            <Button Style="{StaticResource ModeButtonStyle}"
-                    IsEnabled="False"
-                    Margin="0,10,0,0">
-                <Grid Width="400" Height="70">
-                    <Rectangle Fill="#FFFFA500" 
-                               RadiusX="35" RadiusY="35"
-                               Stroke="#FFFF8C00" 
-                               StrokeThickness="3"
-                               Opacity="0.5"/>
-                    <StackPanel Orientation="Horizontal" 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <Viewbox Width="40" Height="40" Margin="0,0,10,0" Opacity="0.5">
-                            <Canvas Width="40" Height="40">
-                                <Ellipse Width="15" Height="15" Fill="#FF8B4513" Canvas.Left="12.5" Canvas.Top="5"/>
-                                <Ellipse Width="15" Height="15" Fill="#FF8B4513" Canvas.Left="5" Canvas.Top="20"/>
-                                <Ellipse Width="15" Height="15" Fill="#FF8B4513" Canvas.Left="20" Canvas.Top="20"/>
-                            </Canvas>
-                        </Viewbox>
-                        <TextBlock Text="‚Ý‚ñ‚È‚Å““S" 
-                                   FontSize="28" 
-                                   FontWeight="Bold"
-                                   Foreground="#FF8B4513"
-                                   Opacity="0.5"/>
-                    </StackPanel>
-                </Grid>
-            </Button>
-
-            <!-- ‚¿‚©‚­‚Å““Si–³Œøj -->
-            <Button Style="{StaticResource ModeButtonStyle}"
-                    IsEnabled="False"
-                    Margin="0,10,0,0">
-                <Grid Width="400" Height="70">
-                    <Rectangle Fill="#FF98FB98" 
-                               RadiusX="35" RadiusY="35"
-                               Stroke="#FF228B22" 
-                               StrokeThickness="3"
-                               Opacity="0.5"/>
-                    <StackPanel Orientation="Horizontal" 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <Viewbox Width="40" Height="40" Margin="0,0,10,0" Opacity="0.5">
-                            <Canvas Width="40" Height="40">
-                                <Path Data="M20,5 L35,20 L20,35 L5,20 Z" 
-                                      Fill="#FF006400" 
-                                      Stroke="#FF006400" 
-                                      StrokeThickness="2"/>
-                            </Canvas>
-                        </Viewbox>
-                        <TextBlock Text="‚¿‚©‚­‚Å““S" 
-                                   FontSize="28" 
-                                   FontWeight="Bold"
-                                   Foreground="#FF006400"
-                                   Opacity="0.5"/>
-                    </StackPanel>
-                </Grid>
-            </Button>
-
-            <!-- ƒlƒbƒg‚Å““Si–³Œøj -->
-            <Button Style="{StaticResource ModeButtonStyle}"
-                    IsEnabled="False"
-                    Margin="0,10,0,0">
-                <Grid Width="400" Height="70">
-                    <Rectangle Fill="#FFEE82EE" 
-                               RadiusX="35" RadiusY="35"
-                               Stroke="#FF8B008B" 
-                               StrokeThickness="3"
-                               Opacity="0.5"/>
-                    <StackPanel Orientation="Horizontal" 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <Viewbox Width="40" Height="40" Margin="0,0,10,0" Opacity="0.5">
-                            <Canvas Width="40" Height="40">
-                                <Ellipse Width="30" Height="30" 
-                                         Stroke="#FF4B0082" 
-                                         StrokeThickness="3"
-                                         Fill="Transparent"
-                                         Canvas.Left="5" Canvas.Top="5"/>
-                                <Path Data="M20,5 Q 20,20 35,20 M20,35 Q 20,20 5,20" 
-                                      Stroke="#FF4B0082" 
-                                      StrokeThickness="2"/>
-                            </Canvas>
-                        </Viewbox>
-                        <TextBlock Text="ƒlƒbƒg‚Å““S" 
-                                   FontSize="28" 
-                                   FontWeight="Bold"
-                                   Foreground="#FF4B0082"
-                                   Opacity="0.5"/>
-                    </StackPanel>
-                </Grid>
-            </Button>
-
-            <!-- ‚¨‚Ü‚¯ -->
-            <Button Style="{StaticResource ModeButtonStyle}"
-                    Command="{Binding ShowExtrasCommand}"
-                    Margin="0,10,0,0">
-                <Grid Width="400" Height="70">
-                    <Rectangle Fill="#FFFFFFE0" 
-                               RadiusX="35" RadiusY="35"
-                               Stroke="#FFFFD700" 
-                               StrokeThickness="3"/>
-                    <StackPanel Orientation="Horizontal" 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <Viewbox Width="40" Height="40" Margin="0,0,10,0">
-                            <Canvas Width="40" Height="40">
-                                <Polygon Points="20,5 25,15 35,15 27,22 30,32 20,25 10,32 13,22 5,15 15,15" 
-                                         Fill="#FFFF8C00" 
-                                         Stroke="#FFFF8C00" 
-                                         StrokeThickness="1"/>
-                            </Canvas>
-                        </Viewbox>
-                        <TextBlock Text="‚¨‚Ü‚¯" 
-                                   FontSize="28" 
-                                   FontWeight="Bold"
-                                   Foreground="#FFFF8C00"/>
-                    </StackPanel>
-                </Grid>
-            </Button>
-
-            <!-- —V‚Ñ‚©‚½ -->
-            <Button Style="{StaticResource ModeButtonStyle}"
-                    Command="{Binding ShowTutorialCommand}"
-                    Margin="0,10,0,0">
-                <Grid Width="400" Height="70">
-                    <Rectangle Fill="#FFE0FFFF" 
-                               RadiusX="35" RadiusY="35"
-                               Stroke="#FF00CED1" 
-                               StrokeThickness="3"/>
-                    <StackPanel Orientation="Horizontal" 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <Viewbox Width="40" Height="40" Margin="0,0,10,0">
-                            <Canvas Width="40" Height="40">
-                                <Ellipse Width="30" Height="30" 
-                                         Stroke="#FF008B8B" 
-                                         StrokeThickness="3"
-                                         Fill="Transparent"
-                                         Canvas.Left="5" Canvas.Top="5"/>
-                                <TextBlock Text="?" 
-                                           FontSize="20" 
+			<!-- ã¤ã¥ãã‹ã‚‰ -->
+			<Button Command="{Binding ContinueGameCommand}"
+                    IsEnabled="{Binding HasSaveData}"
+                    Margin="0,5">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Grid Width="400" Height="70">
+							<Rectangle Fill="#FFFFB6C1"
+                                       RadiusX="35" RadiusY="35"
+                                       Stroke="#FFE91E63"
+                                       StrokeThickness="3"
+                                       Opacity="{Binding IsEnabled, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToOpacityConverter}}"/>
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+								<TextBlock Text="ðŸ’¾ " FontSize="28"/>
+								<TextBlock Text="ã¤ã¥ãã‹ã‚‰"
+                                           FontSize="28"
                                            FontWeight="Bold"
-                                           Foreground="#FF008B8B"
-                                           Canvas.Left="17" Canvas.Top="8"/>
-                            </Canvas>
-                        </Viewbox>
-                        <TextBlock Text="—V‚Ñ‚©‚½" 
-                                   FontSize="28" 
-                                   FontWeight="Bold"
-                                   Foreground="#FF008B8B"/>
-                    </StackPanel>
-                </Grid>
-            </Button>
-        </StackPanel>
+                                           Foreground="#FF8B0000"/>
+							</StackPanel>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Cursor" Value="Hand"/>
+								<Setter Property="RenderTransform">
+									<Setter.Value>
+										<ScaleTransform ScaleX="1.1" ScaleY="1.1" CenterX="200" CenterY="35"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
 
-        <!-- ƒo[ƒWƒ‡ƒ“î•ñ -->
-        <TextBlock Text="Version 1.0.0" 
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Bottom"
-                   Margin="10"
-                   Foreground="White"
-                   FontSize="12"/>
-    </Grid>
+			<!-- ã²ã¨ã‚Šã§æ¡ƒé‰„ -->
+			<Button Command="{Binding SinglePlayCommand}"
+                    Margin="0,5">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Grid Width="400" Height="70">
+							<Rectangle Fill="#FF87CEEB"
+                                       RadiusX="35" RadiusY="35"
+                                       Stroke="#FF4169E1"
+                                       StrokeThickness="3"/>
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+								<TextBlock Text="ðŸš‚ " FontSize="28"/>
+								<TextBlock Text="ã²ã¨ã‚Šã§æ¡ƒé‰„"
+                                           FontSize="28"
+                                           FontWeight="Bold"
+                                           Foreground="#FF000080"/>
+							</StackPanel>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Cursor" Value="Hand"/>
+								<Setter Property="RenderTransform">
+									<Setter.Value>
+										<ScaleTransform ScaleX="1.1" ScaleY="1.1" CenterX="200" CenterY="35"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+
+			<!-- ã¿ã‚“ãªã§æ¡ƒé‰„ -->
+			<Button Command="{Binding MultiPlayCommand}"
+                    IsEnabled="False"
+                    Margin="0,5">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Grid Width="400" Height="70">
+							<Rectangle Fill="#FFFFA500"
+                                       RadiusX="35" RadiusY="35"
+                                       Stroke="#FFFF8C00"
+                                       StrokeThickness="3"
+                                       Opacity="0.5"/>
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+								<TextBlock Text="ðŸ‘¥ " FontSize="28" Opacity="0.5"/>
+								<TextBlock Text="ã¿ã‚“ãªã§æ¡ƒé‰„"
+                                           FontSize="28"
+                                           FontWeight="Bold"
+                                           Foreground="#FF8B4513"
+                                           Opacity="0.5"/>
+							</StackPanel>
+						</Grid>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+
+			<!-- ã¡ã‹ãã§æ¡ƒé‰„ -->
+			<Button Command="{Binding LocalPlayCommand}"
+                    IsEnabled="False"
+                    Margin="0,5">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Grid Width="400" Height="70">
+							<Rectangle Fill="#FF98FB98"
+                                       RadiusX="35" RadiusY="35"
+                                       Stroke="#FF228B22"
+                                       StrokeThickness="3"
+                                       Opacity="0.5"/>
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+								<TextBlock Text="ðŸ“¡ " FontSize="28" Opacity="0.5"/>
+								<TextBlock Text="ã¡ã‹ãã§æ¡ƒé‰„"
+                                           FontSize="28"
+                                           FontWeight="Bold"
+                                           Foreground="#FF006400"
+                                           Opacity="0.5"/>
+							</StackPanel>
+						</Grid>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+
+			<!-- ãƒãƒƒãƒˆã§æ¡ƒé‰„ -->
+			<Button Command="{Binding OnlinePlayCommand}"
+                    IsEnabled="False"
+                    Margin="0,5">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Grid Width="400" Height="70">
+							<Rectangle Fill="#FFEE82EE"
+                                       RadiusX="35" RadiusY="35"
+                                       Stroke="#FF8B008B"
+                                       StrokeThickness="3"
+                                       Opacity="0.5"/>
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+								<TextBlock Text="ðŸŒ " FontSize="28" Opacity="0.5"/>
+								<TextBlock Text="ãƒãƒƒãƒˆã§æ¡ƒé‰„"
+                                           FontSize="28"
+                                           FontWeight="Bold"
+                                           Foreground="#FF4B0082"
+                                           Opacity="0.5"/>
+							</StackPanel>
+						</Grid>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+
+			<!-- ãŠã¾ã‘ -->
+			<Button Command="{Binding ShowExtrasCommand}"
+                    Margin="0,5">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Grid Width="400" Height="70">
+							<Rectangle Fill="#FFFFFFE0"
+                                       RadiusX="35" RadiusY="35"
+                                       Stroke="#FFFFD700"
+                                       StrokeThickness="3"/>
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+								<TextBlock Text="ðŸŽ " FontSize="28"/>
+								<TextBlock Text="ãŠã¾ã‘"
+                                           FontSize="28"
+                                           FontWeight="Bold"
+                                           Foreground="#FFFF8C00"/>
+							</StackPanel>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Cursor" Value="Hand"/>
+								<Setter Property="RenderTransform">
+									<Setter.Value>
+										<ScaleTransform ScaleX="1.1" ScaleY="1.1" CenterX="200" CenterY="35"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+
+			<!-- éŠã³ã‹ãŸ -->
+			<Button Command="{Binding ShowTutorialCommand}"
+                    Margin="0,5">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Grid Width="400" Height="70">
+							<Rectangle Fill="#FFE0FFFF"
+                                       RadiusX="35" RadiusY="35"
+                                       Stroke="#FF00CED1"
+                                       StrokeThickness="3"/>
+							<StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+								<TextBlock Text="â“ " FontSize="28"/>
+								<TextBlock Text="éŠã³ã‹ãŸ"
+                                           FontSize="28"
+                                           FontWeight="Bold"
+                                           Foreground="#FF008B8B"/>
+							</StackPanel>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Cursor" Value="Hand"/>
+								<Setter Property="RenderTransform">
+									<Setter.Value>
+										<ScaleTransform ScaleX="1.1" ScaleY="1.1" CenterX="200" CenterY="35"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+		</StackPanel>
+	</Grid>
+
+	<Window.Resources>
+		<!-- BoolToOpacityConverter -->
+		<BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+		<Style x:Key="BoolToOpacityConverter" TargetType="TextBlock">
+			<Style.Triggers>
+				<Trigger Property="IsEnabled" Value="False">
+					<Setter Property="Opacity" Value="0.5"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Resources>
 </Window>

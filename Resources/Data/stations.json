@@ -1,0 +1,114 @@
+{
+  "stations": [
+    {
+      "id": 1,
+      "name": "ìåãû",
+      "shortName": "ìåãû",
+      "type": "Property",
+      "region": "Kanto",
+      "x": 435,
+      "y": 320,
+      "connections": [ 2, 3, 4, 5 ],
+      "propertyIds": [ 101, 102, 103, 104, 105 ]
+    },
+    {
+      "id": 2,
+      "name": "êVèh",
+      "shortName": "êVèh",
+      "type": "Property",
+      "region": "Kanto",
+      "x": 425,
+      "y": 315,
+      "connections": [ 1, 3, 6 ],
+      "propertyIds": [ 201, 202, 203 ]
+    },
+    {
+      "id": 3,
+      "name": "èaíJ",
+      "shortName": "èaíJ",
+      "type": "Property",
+      "region": "Kanto",
+      "x": 420,
+      "y": 325,
+      "connections": [ 1, 2, 4 ],
+      "propertyIds": [ 301, 302, 303, 304 ]
+    },
+    {
+      "id": 4,
+      "name": "ïiêÏ",
+      "shortName": "ïiêÏ",
+      "type": "Property",
+      "region": "Kanto",
+      "x": 440,
+      "y": 330,
+      "connections": [ 1, 3, 5 ],
+      "propertyIds": [ 401, 402 ]
+    },
+    {
+      "id": 5,
+      "name": "â°ïl",
+      "shortName": "â°ïl",
+      "type": "Property",
+      "region": "Kanto",
+      "x": 445,
+      "y": 340,
+      "connections": [ 1, 4, 7 ],
+      "propertyIds": [ 501, 502, 503, 504 ]
+    },
+    {
+      "id": 6,
+      "name": "írë‹",
+      "shortName": "írë‹",
+      "type": "CardShop",
+      "region": "Kanto",
+      "x": 430,
+      "y": 310,
+      "connections": [ 2, 8 ],
+      "cardShopLevel": 1
+    },
+    {
+      "id": 7,
+      "name": "äôëq",
+      "shortName": "äôëq",
+      "type": "Plus",
+      "region": "Kanto",
+      "x": 450,
+      "y": 345,
+      "connections": [ 5, 9 ],
+      "plusAmount": 10000000
+    },
+    {
+      "id": 8,
+      "name": "ëÂã{",
+      "shortName": "ëÂã{",
+      "type": "Property",
+      "region": "Kanto",
+      "x": 435,
+      "y": 300,
+      "connections": [ 6, 10 ],
+      "propertyIds": [ 801, 802 ]
+    },
+    {
+      "id": 9,
+      "name": "è¨ìcå¥",
+      "shortName": "è¨ìcå¥",
+      "type": "Minus",
+      "region": "Kanto",
+      "x": 455,
+      "y": 350,
+      "connections": [ 7, 10 ],
+      "minusAmount": 5000000
+    },
+    {
+      "id": 10,
+      "name": "êÁót",
+      "shortName": "êÁót",
+      "type": "Property",
+      "region": "Kanto",
+      "x": 455,
+      "y": 320,
+      "connections": [ 8, 9 ],
+      "propertyIds": [ 1001, 1002, 1003 ]
+    }
+  ]
+}

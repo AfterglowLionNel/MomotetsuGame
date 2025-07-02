@@ -1,0 +1,188 @@
+{
+  "properties": [
+    {
+      "id": 101,
+      "name": "東京タワー",
+      "category": "Tourism",
+      "basePrice": 10000000000,
+      "incomeRate": 0.15,
+      "stationId": 1
+    },
+    {
+      "id": 102,
+      "name": "皇居",
+      "category": "Tourism",
+      "basePrice": 20000000000,
+      "incomeRate": 0.10,
+      "stationId": 1
+    },
+    {
+      "id": 103,
+      "name": "東京駅ビル",
+      "category": "Commerce",
+      "basePrice": 8000000000,
+      "incomeRate": 0.12,
+      "stationId": 1
+    },
+    {
+      "id": 104,
+      "name": "築地市場",
+      "category": "Commerce",
+      "basePrice": 5000000000,
+      "incomeRate": 0.10,
+      "stationId": 1
+    },
+    {
+      "id": 105,
+      "name": "東京証券取引所",
+      "category": "Commerce",
+      "basePrice": 15000000000,
+      "incomeRate": 0.18,
+      "stationId": 1
+    },
+    {
+      "id": 201,
+      "name": "新宿高層ビル群",
+      "category": "Commerce",
+      "basePrice": 12000000000,
+      "incomeRate": 0.14,
+      "stationId": 2
+    },
+    {
+      "id": 202,
+      "name": "歌舞伎町",
+      "category": "Commerce",
+      "basePrice": 6000000000,
+      "incomeRate": 0.16,
+      "stationId": 2
+    },
+    {
+      "id": 203,
+      "name": "新宿御苑",
+      "category": "Tourism",
+      "basePrice": 3000000000,
+      "incomeRate": 0.08,
+      "stationId": 2
+    },
+    {
+      "id": 301,
+      "name": "渋谷109",
+      "category": "Commerce",
+      "basePrice": 7000000000,
+      "incomeRate": 0.15,
+      "stationId": 3
+    },
+    {
+      "id": 302,
+      "name": "ハチ公像",
+      "category": "Tourism",
+      "basePrice": 1000000000,
+      "incomeRate": 0.05,
+      "stationId": 3
+    },
+    {
+      "id": 303,
+      "name": "渋谷スクランブル交差点",
+      "category": "Tourism",
+      "basePrice": 2000000000,
+      "incomeRate": 0.07,
+      "stationId": 3
+    },
+    {
+      "id": 304,
+      "name": "渋谷ヒカリエ",
+      "category": "Commerce",
+      "basePrice": 9000000000,
+      "incomeRate": 0.13,
+      "stationId": 3
+    },
+    {
+      "id": 401,
+      "name": "品川プリンスホテル",
+      "category": "Tourism",
+      "basePrice": 6000000000,
+      "incomeRate": 0.11,
+      "stationId": 4
+    },
+    {
+      "id": 402,
+      "name": "品川水族館",
+      "category": "Tourism",
+      "basePrice": 4000000000,
+      "incomeRate": 0.09,
+      "stationId": 4
+    },
+    {
+      "id": 501,
+      "name": "横浜ランドマークタワー",
+      "category": "Commerce",
+      "basePrice": 11000000000,
+      "incomeRate": 0.14,
+      "stationId": 5
+    },
+    {
+      "id": 502,
+      "name": "横浜中華街",
+      "category": "Tourism",
+      "basePrice": 5000000000,
+      "incomeRate": 0.12,
+      "stationId": 5
+    },
+    {
+      "id": 503,
+      "name": "横浜赤レンガ倉庫",
+      "category": "Tourism",
+      "basePrice": 3000000000,
+      "incomeRate": 0.10,
+      "stationId": 5
+    },
+    {
+      "id": 504,
+      "name": "山下公園",
+      "category": "Tourism",
+      "basePrice": 2000000000,
+      "incomeRate": 0.06,
+      "stationId": 5
+    },
+    {
+      "id": 801,
+      "name": "大宮鉄道博物館",
+      "category": "Tourism",
+      "basePrice": 3000000000,
+      "incomeRate": 0.08,
+      "stationId": 8
+    },
+    {
+      "id": 802,
+      "name": "大宮ソニックシティ",
+      "category": "Commerce",
+      "basePrice": 4000000000,
+      "incomeRate": 0.10,
+      "stationId": 8
+    },
+    {
+      "id": 1001,
+      "name": "千葉マリンスタジアム",
+      "category": "Tourism",
+      "basePrice": 5000000000,
+      "incomeRate": 0.11,
+      "stationId": 10
+    },
+    {
+      "id": 1002,
+      "name": "幕張メッセ",
+      "category": "Commerce",
+      "basePrice": 7000000000,
+      "incomeRate": 0.12,
+      "stationId": 10
+    },
+    {
+      "id": 1003,
+      "name": "千葉ポートタワー",
+      "category": "Tourism",
+      "basePrice": 2000000000,
+      "incomeRate": 0.07,
+      "stationId": 10
+    }
+  ]
+}

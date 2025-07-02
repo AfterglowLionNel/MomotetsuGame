@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MomotetsuGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+455a9330700e218617a612df4d7ed753a8af4f66")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a0d9d1450c09e6ed688802b76914c273da534c8")]
 [assembly: System.Reflection.AssemblyProductAttribute("MomotetsuGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MomotetsuGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

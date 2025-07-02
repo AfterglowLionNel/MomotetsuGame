@@ -4,3 +4,6 @@ C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\App.g.cs
 C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\MomotetsuGame_MarkupCompile.cache
 C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\MomotetsuGame_MarkupCompile.lref
 C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\Views\ModeSelectionWindow.baml
+C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\Views\GameSettingsWindow.g.cs
+C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\Views\ModeSelectionWindow.g.cs

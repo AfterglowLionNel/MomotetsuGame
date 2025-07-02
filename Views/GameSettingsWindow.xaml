@@ -4,286 +4,234 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="ƒQ[ƒ€Ý’è" 
+        Title="ã‚²ãƒ¼ãƒ è¨­å®š"
         Height="600" Width="800"
-        WindowStartupLocation="CenterOwner"
-        Background="#FFE6F3FF">
+        WindowStartupLocation="CenterScreen"
+        Background="#FFF0F8FF">
 
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Resources/Styles/ButtonStyles.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/Colors.xaml"/>
-                <ResourceDictionary Source="/Resources/Styles/GameStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+		<!-- ã‚¿ã‚¤ãƒˆãƒ« -->
+		<TextBlock Grid.Row="0"
+                   Text="ã‚²ãƒ¼ãƒ è¨­å®š"
+                   FontSize="32"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20"/>
 
-        <!-- ƒwƒbƒ_[ -->
-        <Border Grid.Row="0" 
-                Background="#FF4169E1"
-                Height="80">
-            <TextBlock Text="ƒQ[ƒ€Ý’è" 
-                       FontSize="36" 
-                       FontWeight="Bold"
-                       Foreground="White"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center">
-                <TextBlock.Effect>
-                    <DropShadowEffect ShadowDepth="2" Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
-        </Border>
-
-        <!-- Ý’èƒGƒŠƒA -->
-        <ScrollViewer Grid.Row="1" 
-                      VerticalScrollBarVisibility="Auto"
-                      Margin="20">
-            <StackPanel>
-                <!-- ƒvƒŒƒC”N”Ý’è -->
-                <GroupBox Header="ƒvƒŒƒC”N”" 
-                          Style="{StaticResource GameGroupBoxStyle}"
-                          Margin="0,0,0,20">
-                    <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" 
-                                    Orientation="Horizontal"
-                                    VerticalAlignment="Center">
-                            <RadioButton x:Name="Year3Radio"
-                                         Content="3”N" 
-                                         FontSize="18"
-                                         Margin="0,0,20,0"
-                                         IsChecked="{Binding IsYear3Selected}"/>
-                            <RadioButton x:Name="Year5Radio"
-                                         Content="5”N" 
-                                         FontSize="18"
-                                         Margin="0,0,20,0"
-                                         IsChecked="{Binding IsYear5Selected}"/>
-                            <RadioButton x:Name="Year10Radio"
-                                         Content="10”N" 
-                                         FontSize="18"
-                                         Margin="0,0,20,0"
-                                         IsChecked="{Binding IsYear10Selected}"/>
-                            <RadioButton x:Name="YearCustomRadio"
-                                         Content="ƒJƒXƒ^ƒ€" 
-                                         FontSize="18"
-                                         IsChecked="{Binding IsCustomYearSelected}"/>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="2" 
-                                    Orientation="Horizontal"
-                                    VerticalAlignment="Center"
-                                    Visibility="{Binding CustomYearVisibility}">
-                            <TextBox Text="{Binding CustomYears, UpdateSourceTrigger=PropertyChanged}" 
-                                     Width="60"
-                                     FontSize="18"
-                                     TextAlignment="Center"
-                                     VerticalContentAlignment="Center"
-                                     Height="30"/>
-                            <TextBlock Text="”N" 
-                                       FontSize="18"
+		<!-- è¨­å®šå†…å®¹ -->
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+			<StackPanel>
+				<!-- ãƒ—ãƒ¬ã‚¤å¹´æ•° -->
+				<GroupBox Header="ãƒ—ãƒ¬ã‚¤å¹´æ•°" Margin="0,5">
+					<StackPanel Margin="10">
+						<RadioButton x:Name="Year3Radio"
+                                     Content="3å¹´æ±ºæˆ¦ï¼"
+                                     IsChecked="{Binding Path=SelectedYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=3}"
+                                     FontSize="16" Margin="5"/>
+						<RadioButton x:Name="Year5Radio"
+                                     Content="5å¹´"
+                                     IsChecked="{Binding Path=SelectedYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=5}"
+                                     FontSize="16" Margin="5"/>
+						<RadioButton x:Name="Year10Radio"
+                                     Content="10å¹´"
+                                     IsChecked="{Binding Path=SelectedYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=10}"
+                                     FontSize="16" Margin="5"/>
+						<RadioButton x:Name="YearCustomRadio"
+                                     Content="ã‚«ã‚¹ã‚¿ãƒ "
+                                     IsChecked="{Binding Path=SelectedYears, Converter={StaticResource IntToBoolConverter}, ConverterParameter=0}"
+                                     FontSize="16" Margin="5"/>
+						<StackPanel Orientation="Horizontal"
+                                    Margin="25,5,5,5"
+                                    IsEnabled="{Binding ElementName=YearCustomRadio, Path=IsChecked}">
+							<TextBox Text="{Binding CustomYears}"
+                                     Width="50"
+                                     FontSize="16"
+                                     VerticalAlignment="Center"/>
+							<TextBlock Text="å¹´"
+                                       FontSize="16"
                                        VerticalAlignment="Center"
                                        Margin="5,0,0,0"/>
-                        </StackPanel>
-                    </Grid>
-                </GroupBox>
+						</StackPanel>
+					</StackPanel>
+				</GroupBox>
 
-                <!-- ƒvƒŒƒCƒ„[Ý’è -->
-                <GroupBox Header="ƒvƒŒƒCƒ„[Ý’è" 
-                          Style="{StaticResource GameGroupBoxStyle}"
-                          Margin="0,0,0,20">
-                    <Grid Margin="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+				<!-- ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å -->
+				<GroupBox Header="ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å" Margin="0,5">
+					<TextBox Text="{Binding PlayerName, UpdateSourceTrigger=PropertyChanged}"
+                             FontSize="20"
+                             Margin="10"
+                             MaxLength="10"/>
+				</GroupBox>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0"
-                                   Text="ƒvƒŒƒCƒ„[–¼" 
-                                   FontSize="16"
-                                   VerticalAlignment="Center"/>
-                        <TextBox Grid.Row="0" Grid.Column="1"
-                                 Text="{Binding PlayerName, UpdateSourceTrigger=PropertyChanged}" 
-                                 FontSize="16"
-                                 Height="30"
-                                 Margin="0,0,0,10"
-                                 MaxLength="10"/>
+				<!-- ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚«ãƒ©ãƒ¼ -->
+				<GroupBox Header="ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚«ãƒ©ãƒ¼" Margin="0,5">
+					<ItemsControl ItemsSource="{Binding ColorOptions}" Margin="10">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel/>
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<RadioButton GroupName="PlayerColor"
+                                             IsChecked="{Binding DataContext.PlayerColor, 
+                                                         RelativeSource={RelativeSource AncestorType=Window},
+                                                         Converter={StaticResource EnumToBoolConverter},
+                                                         ConverterParameter={Binding Value}}"
+                                             Margin="5">
+									<StackPanel Orientation="Horizontal">
+										<Ellipse Width="30" Height="30"
+                                                 Fill="{Binding ColorCode}"
+                                                 Stroke="Black"
+                                                 StrokeThickness="1"
+                                                 Margin="0,0,5,0"/>
+										<TextBlock Text="{Binding DisplayName}"
+                                                   FontSize="16"
+                                                   VerticalAlignment="Center"/>
+									</StackPanel>
+								</RadioButton>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</GroupBox>
 
-                        <TextBlock Grid.Row="1" Grid.Column="0"
-                                   Text="ƒvƒŒƒCƒ„[F" 
-                                   FontSize="16"
-                                   VerticalAlignment="Center"/>
-                        <ListBox Grid.Row="1" Grid.Column="1"
-                                 ItemsSource="{Binding PlayerColors}"
-                                 SelectedItem="{Binding SelectedPlayerColor}"
-                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                 BorderThickness="0"
-                                 Background="Transparent">
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Width="40" Height="40" 
-                                            Margin="5"
-                                            CornerRadius="5"
-                                            BorderBrush="Black"
-                                            BorderThickness="2">
-                                        <Border.Background>
-                                            <SolidColorBrush Color="{Binding Color}"/>
-                                        </Border.Background>
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" 
-                                                                 Value="True">
-                                                        <Setter Property="BorderThickness" Value="4"/>
-                                                        <Setter Property="BorderBrush" Value="Gold"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Grid>
-                </GroupBox>
+				<!-- COMè¨­å®š -->
+				<GroupBox Header="COMãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼" Margin="0,5">
+					<StackPanel Margin="10">
+						<!-- COMäººæ•° -->
+						<StackPanel Orientation="Horizontal" Margin="0,5">
+							<TextBlock Text="äººæ•°: "
+                                       FontSize="16"
+                                       VerticalAlignment="Center"/>
+							<Button Content="ï¼"
+                                    Command="{Binding DecreaseComCountCommand}"
+                                    Width="30" Height="30"
+                                    FontSize="16"
+                                    Margin="5,0"/>
+							<TextBlock Text="{Binding ComCount}"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       VerticalAlignment="Center"
+                                       Margin="10,0"/>
+							<Button Content="ï¼‹"
+                                    Command="{Binding IncreaseComCountCommand}"
+                                    Width="30" Height="30"
+                                    FontSize="16"
+                                    Margin="5,0"/>
+							<TextBlock Text="äºº"
+                                       FontSize="16"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0,0,0"/>
+						</StackPanel>
 
-                <!-- COMÝ’è -->
-                <GroupBox Header="COMÝ’è" 
-                          Style="{StaticResource GameGroupBoxStyle}"
-                          Margin="0,0,0,20">
-                    <Grid Margin="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+						<!-- COMå¼·ã• -->
+						<StackPanel Margin="0,10,0,0">
+							<TextBlock Text="å¼·ã•:"
+                                       FontSize="16"
+                                       Margin="0,0,0,5"/>
+							<ItemsControl ItemsSource="{Binding DifficultyOptions}">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel Orientation="Horizontal"/>
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<RadioButton GroupName="ComDifficulty"
+                                                     Content="{Binding DisplayName}"
+                                                     IsChecked="{Binding DataContext.ComDifficulty, 
+                                                                 RelativeSource={RelativeSource AncestorType=Window},
+                                                                 Converter={StaticResource EnumToBoolConverter},
+                                                                 ConverterParameter={Binding Value}}"
+                                                     FontSize="16"
+                                                     Margin="5"/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</StackPanel>
+					</StackPanel>
+				</GroupBox>
+			</StackPanel>
+		</ScrollViewer>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0"
-                                   Text="COMl”" 
-                                   FontSize="16"
-                                   VerticalAlignment="Center"/>
-                        <StackPanel Grid.Row="0" Grid.Column="1"
-                                    Orientation="Horizontal">
-                            <RadioButton Content="1l" 
-                                         FontSize="16"
-                                         Margin="0,0,20,0"
-                                         IsChecked="{Binding IsCom1Selected}"/>
-                            <RadioButton Content="2l" 
-                                         FontSize="16"
-                                         Margin="0,0,20,0"
-                                         IsChecked="{Binding IsCom2Selected}"/>
-                            <RadioButton Content="3l" 
-                                         FontSize="16"
-                                         IsChecked="{Binding IsCom3Selected}"/>
-                        </StackPanel>
+		<!-- ãƒœã‚¿ãƒ³ -->
+		<Grid Grid.Row="2" Margin="0,20,0,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="0"
-                                   Text="COM‹­‚³" 
-                                   FontSize="16"
-                                   VerticalAlignment="Center"
-                                   Margin="0,10,0,0"/>
-                        <StackPanel Grid.Row="1" Grid.Column="1"
-                                    Orientation="Horizontal"
-                                    Margin="0,10,0,0">
-                            <RadioButton Content="Žã‚¢" 
-                                         FontSize="16"
-                                         Margin="0,0,20,0"
-                                         IsChecked="{Binding IsComEasySelected}"/>
-                            <RadioButton Content="•’Ê" 
-                                         FontSize="16"
-                                         Margin="0,0,20,0"
-                                         IsChecked="{Binding IsComNormalSelected}"/>
-                            <RadioButton Content="‹­‚¢" 
-                                         FontSize="16"
-                                         IsChecked="{Binding IsComHardSelected}"/>
-                        </StackPanel>
-                    </Grid>
-                </GroupBox>
+			<Button Grid.Column="1"
+                    Content="ã‚‚ã©ã‚‹"
+                    Command="{Binding BackCommand}"
+                    Width="120" Height="40"
+                    FontSize="18"
+                    Margin="10,0">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Border Background="#FFCCCCCC"
+                                CornerRadius="20"
+                                BorderBrush="#FF999999"
+                                BorderThickness="2">
+							<ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Cursor" Value="Hand"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
 
-                <!-- “ÁŽêƒ‹[ƒ‹ -->
-                <GroupBox Header="“ÁŽêƒ‹[ƒ‹" 
-                          Style="{StaticResource GameGroupBoxStyle}">
-                    <StackPanel Margin="10">
-                        <CheckBox Content="ƒ{ƒ“ƒr[‚ðoŒ»‚³‚¹‚é" 
-                                  FontSize="16"
-                                  IsChecked="{Binding EnableBonby}"
-                                  Margin="0,0,0,10"/>
-                        <CheckBox Content="“ÁŽêƒCƒxƒ“ƒg‚ð”­¶‚³‚¹‚é" 
-                                  FontSize="16"
-                                  IsChecked="{Binding EnableSpecialEvents}"/>
-                    </StackPanel>
-                </GroupBox>
-            </StackPanel>
-        </ScrollViewer>
+			<Button Grid.Column="2"
+                    Content="ã‚²ãƒ¼ãƒ é–‹å§‹ï¼"
+                    Command="{Binding StartGameCommand}"
+                    Width="150" Height="40"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Margin="10,0">
+				<Button.Template>
+					<ControlTemplate TargetType="Button">
+						<Border Background="#FFFF6B6B"
+                                CornerRadius="20"
+                                BorderBrush="#FFFF0000"
+                                BorderThickness="2">
+							<ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              TextBlock.Foreground="White"/>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Cursor" Value="Hand"/>
+								<Setter Property="RenderTransform">
+									<Setter.Value>
+										<ScaleTransform ScaleX="1.05" ScaleY="1.05" CenterX="75" CenterY="20"/>
+									</Setter.Value>
+								</Setter>
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter Property="Opacity" Value="0.5"/>
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Button.Template>
+			</Button>
+		</Grid>
+	</Grid>
 
-        <!-- ƒ{ƒ^ƒ“ƒGƒŠƒA -->
-        <Border Grid.Row="2" 
-                Background="#FFD3D3D3"
-                Height="80">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="1"
-                        Content="ƒQ[ƒ€ŠJŽn" 
-                        Style="{StaticResource ActionButtonStyle}"
-                        Width="150"
-                        Height="50"
-                        Margin="10"
-                        FontSize="20"
-                        Command="{Binding StartGameCommand}"/>
-
-                <Button Grid.Column="2"
-                        Content="ƒLƒƒƒ“ƒZƒ‹" 
-                        Width="150"
-                        Height="50"
-                        Margin="10"
-                        FontSize="20"
-                        Background="#FF808080"
-                        Foreground="White"
-                        BorderBrush="#FF696969"
-                        Command="{Binding CancelCommand}">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="3"
-                                    CornerRadius="20">
-                                <ContentPresenter HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </Grid>
-        </Border>
-    </Grid>
+	<Window.Resources>
+		<!-- Converters -->
+		<local:IntToBoolConverter x:Key="IntToBoolConverter" xmlns:local="clr-namespace:MomotetsuGame.Converters"/>
+		<local:EnumToBoolConverter x:Key="EnumToBoolConverter" xmlns:local="clr-namespace:MomotetsuGame.Converters"/>
+	</Window.Resources>
 </Window>

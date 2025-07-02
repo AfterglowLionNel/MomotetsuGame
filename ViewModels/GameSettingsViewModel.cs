@@ -1,15 +1,11 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using MomotetsuGame.Application.Commands;
 using MomotetsuGame.Core.Entities;
 using MomotetsuGame.Core.Enums;
-using MomotetsuGame.Services;
+using MomotetsuGame.Core.Interfaces;
 
 namespace MomotetsuGame.ViewModels
 {
@@ -18,56 +14,73 @@ namespace MomotetsuGame.ViewModels
     /// </summary>
     public class GameSettingsViewModel : INotifyPropertyChanged
     {
-        private readonly GameConfiguration _gameConfig;
+        private readonly INavigationService _navigationService;
+        private readonly IAudioService _audioService;
+        private readonly IGameManager _gameManager;
+        private GameMode _gameMode;
+        private int _selectedYears = 10;
+        private int _customYears = 30;
+        private ComDifficulty _comDifficulty = ComDifficulty.Normal;
+        private int _comCount = 3;
+        private string _playerName = "プレイヤー";
+        private PlayerColor _playerColor = PlayerColor.Blue;
+
+        public GameSettingsViewModel(
+            INavigationService navigationService,
+            IAudioService audioService,
+            IGameManager gameManager)
+        {
+            _navigationService = navigationService;
+            _audioService = audioService;
+            _gameManager = gameManager;
+
+            InitializeCommands();
+            InitializeCollections();
+        }
 
         #region Properties
 
-        // プレイ年数
-        private bool _isYear3Selected;
-        private bool _isYear5Selected;
-        private bool _isYear10Selected = true;
-        private bool _isCustomYearSelected;
-        private int _customYears = 20;
-
-        public bool IsYear3Selected
+        public GameMode GameMode
         {
-            get => _isYear3Selected;
-            set => SetProperty(ref _isYear3Selected, value);
+            get => _gameMode;
+            set => SetProperty(ref _gameMode, value);
         }
 
-        public bool IsYear5Selected
+        public int SelectedYears
         {
-            get => _isYear5Selected;
-            set => SetProperty(ref _isYear5Selected, value);
-        }
-
-        public bool IsYear10Selected
-        {
-            get => _isYear10Selected;
-            set => SetProperty(ref _isYear10Selected, value);
-        }
-
-        public bool IsCustomYearSelected
-        {
-            get => _isCustomYearSelected;
-            set
-            {
-                SetProperty(ref _isCustomYearSelected, value);
-                OnPropertyChanged(nameof(CustomYearVisibility));
-            }
+            get => _selectedYears;
+            set => SetProperty(ref _selectedYears, value);
         }
 
         public int CustomYears
         {
             get => _customYears;
-            set => SetProperty(ref _customYears, Math.Clamp(value, 1, 100));
+            set
+            {
+                if (value >= 1 && value <= 100)
+                {
+                    SetProperty(ref _customYears, value);
+                }
+            }
         }
 
-        public Visibility CustomYearVisibility => IsCustomYearSelected ? Visibility.Visible : Visibility.Collapsed;
+        public ComDifficulty ComDifficulty
+        {
+            get => _comDifficulty;
+            set => SetProperty(ref _comDifficulty, value);
+        }
 
-        // プレイヤー設定
-        private string _playerName = "プレイヤー";
-        private PlayerColorOption? _selectedPlayerColor;
+        public int ComCount
+        {
+            get => _comCount;
+            set
+            {
+                if (value >= 1 && value <= 3)
+                {
+                    SetProperty(ref _comCount, value);
+                }
+            }
+        }
 
         public string PlayerName
         {
@@ -75,321 +88,128 @@ namespace MomotetsuGame.ViewModels
             set => SetProperty(ref _playerName, value);
         }
 
-        public ObservableCollection<PlayerColorOption> PlayerColors { get; }
-
-        public PlayerColorOption? SelectedPlayerColor
+        public PlayerColor PlayerColor
         {
-            get => _selectedPlayerColor;
-            set => SetProperty(ref _selectedPlayerColor, value);
+            get => _playerColor;
+            set => SetProperty(ref _playerColor, value);
         }
 
-        // COM設定
-        private bool _isCom1Selected;
-        private bool _isCom2Selected;
-        private bool _isCom3Selected = true;
-
-        public bool IsCom1Selected
-        {
-            get => _isCom1Selected;
-            set => SetProperty(ref _isCom1Selected, value);
-        }
-
-        public bool IsCom2Selected
-        {
-            get => _isCom2Selected;
-            set => SetProperty(ref _isCom2Selected, value);
-        }
-
-        public bool IsCom3Selected
-        {
-            get => _isCom3Selected;
-            set => SetProperty(ref _isCom3Selected, value);
-        }
-
-        // COM強さ
-        private bool _isComEasySelected;
-        private bool _isComNormalSelected = true;
-        private bool _isComHardSelected;
-
-        public bool IsComEasySelected
-        {
-            get => _isComEasySelected;
-            set => SetProperty(ref _isComEasySelected, value);
-        }
-
-        public bool IsComNormalSelected
-        {
-            get => _isComNormalSelected;
-            set => SetProperty(ref _isComNormalSelected, value);
-        }
-
-        public bool IsComHardSelected
-        {
-            get => _isComHardSelected;
-            set => SetProperty(ref _isComHardSelected, value);
-        }
-
-        // 特殊ルール
-        private bool _enableBonby = true;
-        private bool _enableSpecialEvents = true;
-
-        public bool EnableBonby
-        {
-            get => _enableBonby;
-            set => SetProperty(ref _enableBonby, value);
-        }
-
-        public bool EnableSpecialEvents
-        {
-            get => _enableSpecialEvents;
-            set => SetProperty(ref _enableSpecialEvents, value);
-        }
+        public ObservableCollection<ComDifficultyOption> DifficultyOptions { get; }
+        public ObservableCollection<PlayerColorOption> ColorOptions { get; }
 
         #endregion
 
         #region Commands
 
-        public ICommand StartGameCommand { get; }
-        public ICommand CancelCommand { get; }
+        public ICommand StartGameCommand { get; private set; } = null!;
+        public ICommand BackCommand { get; private set; } = null!;
+        public ICommand IncreaseComCountCommand { get; private set; } = null!;
+        public ICommand DecreaseComCountCommand { get; private set; } = null!;
 
-        #endregion
-
-        #region Events
-
-        public event Action<bool>? CloseRequested;
-        public event Action<GameSettings>? GameStartRequested;
-
-        #endregion
-
-        public GameSettingsViewModel()
+        private void InitializeCommands()
         {
-            _gameConfig = GameConfiguration.Instance;
+            StartGameCommand = new RelayCommand(
+                async () => await StartGame(),
+                () => !string.IsNullOrWhiteSpace(PlayerName));
 
-            // プレイヤー色の初期化
-            PlayerColors = new ObservableCollection<PlayerColorOption>
+            BackCommand = new RelayCommand(
+                async () => await GoBack());
+
+            IncreaseComCountCommand = new RelayCommand(
+                () => ComCount++,
+                () => ComCount < 3);
+
+            DecreaseComCountCommand = new RelayCommand(
+                () => ComCount--,
+                () => ComCount > 1);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void InitializeCollections()
+        {
+            DifficultyOptions = new ObservableCollection<ComDifficultyOption>
             {
-                new PlayerColorOption(PlayerColor.Blue, Colors.RoyalBlue),
-                new PlayerColorOption(PlayerColor.Red, Colors.Crimson),
-                new PlayerColorOption(PlayerColor.Yellow, Colors.Gold),
-                new PlayerColorOption(PlayerColor.Green, Colors.LimeGreen),
-                new PlayerColorOption(PlayerColor.Purple, Colors.MediumPurple),
-                new PlayerColorOption(PlayerColor.Orange, Colors.DarkOrange)
+                new() { Value = ComDifficulty.Weak, DisplayName = "よわい" },
+                new() { Value = ComDifficulty.Normal, DisplayName = "ふつう" },
+                new() { Value = ComDifficulty.Strong, DisplayName = "つよい" }
             };
-            SelectedPlayerColor = PlayerColors.First();
 
-            // コマンドの初期化
-            StartGameCommand = new RelayCommand(StartGame, CanStartGame);
-            CancelCommand = new RelayCommand(Cancel);
-
-            // デフォルト値を設定から読み込み
-            LoadDefaults();
+            ColorOptions = new ObservableCollection<PlayerColorOption>
+            {
+                new() { Value = PlayerColor.Blue, DisplayName = "青", ColorCode = "#0000FF" },
+                new() { Value = PlayerColor.Red, DisplayName = "赤", ColorCode = "#FF0000" },
+                new() { Value = PlayerColor.Green, DisplayName = "緑", ColorCode = "#00FF00" },
+                new() { Value = PlayerColor.Yellow, DisplayName = "黄", ColorCode = "#FFFF00" }
+            };
         }
 
-        /// <summary>
-        /// パラメータを受信
-        /// </summary>
-        public void ReceiveParameter(object parameter)
+        private async Task StartGame()
         {
-            // 必要に応じてパラメータを処理
-        }
+            _audioService.PlaySe("game_start");
 
-        /// <summary>
-        /// デフォルト値を読み込み
-        /// </summary>
-        private void LoadDefaults()
-        {
-            var settings = _gameConfig.Config.GameSettings;
-
-            // プレイ年数
-            switch (settings.DefaultYears)
-            {
-                case 3:
-                    IsYear3Selected = true;
-                    break;
-                case 5:
-                    IsYear5Selected = true;
-                    break;
-                case 10:
-                    IsYear10Selected = true;
-                    break;
-                default:
-                    IsCustomYearSelected = true;
-                    CustomYears = settings.DefaultYears;
-                    break;
-            }
-
-            // プレイヤー設定
-            var playerSettings = _gameConfig.Config.PlayerSettings;
-            if (!string.IsNullOrEmpty(playerSettings.LastUsedPlayerName))
-            {
-                PlayerName = playerSettings.LastUsedPlayerName;
-            }
-            else
-            {
-                PlayerName = playerSettings.DefaultPlayerName;
-            }
-
-            var defaultColor = PlayerColors.FirstOrDefault(c => c.Type == playerSettings.DefaultPlayerColor);
-            if (defaultColor != null)
-            {
-                SelectedPlayerColor = defaultColor;
-            }
-
-            // COM設定
-            switch (settings.DefaultComCount)
-            {
-                case 1:
-                    IsCom1Selected = true;
-                    break;
-                case 2:
-                    IsCom2Selected = true;
-                    break;
-                case 3:
-                    IsCom3Selected = true;
-                    break;
-            }
-
-            switch (settings.DefaultComDifficulty)
-            {
-                case ComDifficulty.Easy:
-                    IsComEasySelected = true;
-                    break;
-                case ComDifficulty.Normal:
-                    IsComNormalSelected = true;
-                    break;
-                case ComDifficulty.Hard:
-                    IsComHardSelected = true;
-                    break;
-            }
-
-            // 特殊ルール
-            EnableBonby = settings.EnableBonby;
-            EnableSpecialEvents = settings.EnableSpecialEvents;
-        }
-
-        /// <summary>
-        /// ゲーム開始可能かチェック
-        /// </summary>
-        private bool CanStartGame()
-        {
-            return !string.IsNullOrWhiteSpace(PlayerName) && SelectedPlayerColor != null;
-        }
-
-        /// <summary>
-        /// ゲーム開始
-        /// </summary>
-        private void StartGame()
-        {
-            // ゲーム設定を作成
             var settings = new GameSettings
             {
-                GameMode = GameMode.Normal,
-                MaxYears = GetSelectedYears(),
-                ComPlayerCount = GetSelectedComCount(),
-                ComDifficulty = GetSelectedComDifficulty(),
-                EnableBonby = EnableBonby,
-                EnableSpecialEvents = EnableSpecialEvents
+                GameMode = GameMode,
+                MaxYears = SelectedYears == 0 ? CustomYears : SelectedYears,
+                ComDifficulty = ComDifficulty,
+                ComPlayerCount = ComCount,
+                PlayerName = PlayerName,
+                PlayerColor = PlayerColor
             };
 
-            // プレイヤー情報を設定に追加
-            settings.PlayerName = PlayerName;
-            settings.PlayerColor = SelectedPlayerColor!.Type;
+            // ゲームを開始
+            await _gameManager.StartNewGameAsync(settings);
 
-            // 設定を保存
-            SaveSettings();
-
-            // ゲーム開始イベントを発火
-            GameStartRequested?.Invoke(settings);
+            // メインゲーム画面へ遷移
+            await _navigationService.NavigateToAsync("MainGameView");
         }
 
-        /// <summary>
-        /// キャンセル
-        /// </summary>
-        private void Cancel()
+        private async Task GoBack()
         {
-            CloseRequested?.Invoke(false);
+            _audioService.PlaySe("cancel");
+            await _navigationService.GoBackAsync();
         }
 
-        /// <summary>
-        /// 選択された年数を取得
-        /// </summary>
-        private int GetSelectedYears()
+        #endregion
+
+        #region Helper Classes
+
+        public class ComDifficultyOption
         {
-            if (IsYear3Selected) return 3;
-            if (IsYear5Selected) return 5;
-            if (IsYear10Selected) return 10;
-            return CustomYears;
+            public ComDifficulty Value { get; set; }
+            public string DisplayName { get; set; } = string.Empty;
         }
 
-        /// <summary>
-        /// 選択されたCOM数を取得
-        /// </summary>
-        private int GetSelectedComCount()
+        public class PlayerColorOption
         {
-            if (IsCom1Selected) return 1;
-            if (IsCom2Selected) return 2;
-            return 3;
+            public PlayerColor Value { get; set; }
+            public string DisplayName { get; set; } = string.Empty;
+            public string ColorCode { get; set; } = string.Empty;
         }
 
-        /// <summary>
-        /// 選択されたCOM難易度を取得
-        /// </summary>
-        private ComDifficulty GetSelectedComDifficulty()
-        {
-            if (IsComEasySelected) return ComDifficulty.Easy;
-            if (IsComHardSelected) return ComDifficulty.Hard;
-            return ComDifficulty.Normal;
-        }
-
-        /// <summary>
-        /// 設定を保存
-        /// </summary>
-        private void SaveSettings()
-        {
-            var settings = _gameConfig.Config.GameSettings;
-            settings.DefaultYears = GetSelectedYears();
-            settings.DefaultComCount = GetSelectedComCount();
-            settings.DefaultComDifficulty = GetSelectedComDifficulty();
-            settings.EnableBonby = EnableBonby;
-            settings.EnableSpecialEvents = EnableSpecialEvents;
-
-            var playerSettings = _gameConfig.Config.PlayerSettings;
-            playerSettings.LastUsedPlayerName = PlayerName;
-            playerSettings.DefaultPlayerColor = SelectedPlayerColor!.Type;
-
-            _gameConfig.Save();
-        }
+        #endregion
 
         #region INotifyPropertyChanged
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            CommandManager.InvalidateRequerySuggested();
         }
 
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
-            if (System.Collections.Generic.EqualityComparer<T>.Default.Equals(field, value)) return false;
+            if (Equals(field, value)) return false;
             field = value;
             OnPropertyChanged(propertyName);
             return true;
         }
+
         #endregion
-    }
-
-    /// <summary>
-    /// プレイヤー色オプション
-    /// </summary>
-    public class PlayerColorOption
-    {
-        public PlayerColor Type { get; }
-        public Color Color { get; }
-
-        public PlayerColorOption(PlayerColor type, Color color)
-        {
-            Type = type;
-            Color = color;
-        }
     }
 }
