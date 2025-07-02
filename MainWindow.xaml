@@ -4,9 +4,224 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MomotetsuGame"
+        xmlns:vm="clr-namespace:MomotetsuGame.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="桃太郎電鉄風ゲーム" 
+        Height="900" Width="1600"
+        WindowStartupLocation="CenterScreen">
 
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <!-- ツールバー -->
+        <ToolBar Grid.Row="0">
+            <Button Command="{Binding SaveGameCommand}" 
+                    ToolTip="セーブ">
+                <TextBlock Text="💾" FontSize="20"/>
+            </Button>
+            <Button Command="{Binding LoadGameCommand}" 
+                    ToolTip="ロード">
+                <TextBlock Text="📁" FontSize="20"/>
+            </Button>
+            <Separator/>
+            <Button Command="{Binding ShowSettingsCommand}" 
+                    ToolTip="設定">
+                <TextBlock Text="⚙️" FontSize="20"/>
+            </Button>
+        </ToolBar>
+
+        <!-- メインコンテンツ -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ゲームマップ -->
+            <Border Grid.Column="0" 
+                    BorderBrush="DarkGray" 
+                    BorderThickness="2"
+                    Margin="5">
+                <ScrollViewer x:Name="MapScrollViewer"
+                              HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Auto">
+                    <Canvas x:Name="GameMapCanvas"
+                            Width="1200" Height="800"
+                            Background="LightBlue">
+
+                        <!-- 仮の地図背景 -->
+                        <Rectangle Fill="LightGreen" 
+                                   Width="1200" Height="800"
+                                   Opacity="0.3"/>
+
+                        <!-- 駅描画 -->
+                        <ItemsControl ItemsSource="{Binding Stations}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Canvas.Left="{Binding X}" 
+                                            Canvas.Top="{Binding Y}"
+                                            Cursor="Hand">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Grid>
+                                                    <Ellipse Width="30" Height="30"
+                                                             Fill="{Binding TypeColor}"/>
+                                                    <TextBlock Text="{Binding ShortName}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               FontSize="10"
+                                                               FontWeight="Bold"
+                                                               Foreground="White"/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- プレイヤー駒 -->
+                        <ItemsControl ItemsSource="{Binding Players}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Canvas.Left="{Binding PositionX}"
+                                            Canvas.Top="{Binding PositionY}"
+                                            Width="25" Height="25"
+                                            CornerRadius="12.5">
+                                        <Border.RenderTransform>
+                                            <TranslateTransform X="-12.5" Y="-40"/>
+                                        </Border.RenderTransform>
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="White" Offset="0"/>
+                                                <GradientStop Color="LightGray" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <TextBlock Text="🚂" 
+                                                   FontSize="16"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Canvas>
+                </ScrollViewer>
+            </Border>
+
+            <!-- サイドパネル -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- ゲーム情報 -->
+                <GroupBox Grid.Row="0" Header="ゲーム情報" Margin="5">
+                    <StackPanel>
+                        <TextBlock Text="{Binding CurrentYear, StringFormat='第{0}年'}" 
+                                   FontSize="16" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding CurrentMonth, StringFormat='　{0}月'}" 
+                                   FontSize="14"/>
+                        <TextBlock Text="{Binding Destination, StringFormat='目的地: {0}'}" 
+                                   FontSize="14" Foreground="Red"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- プレイヤー情報 -->
+                <GroupBox Grid.Row="1" Header="プレイヤー情報" Margin="5">
+                    <ItemsControl ItemsSource="{Binding PlayerInfos}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{Binding BorderColor}" 
+                                        BorderThickness="2"
+                                        Margin="2" Padding="5"
+                                        CornerRadius="5">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" 
+                                                   FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Money, StringFormat='所持金: {0}'}" />
+                                        <TextBlock Text="{Binding TotalAssets, StringFormat='総資産: {0}'}" />
+                                        <TextBlock Text="{Binding Rank, StringFormat='順位: {0}位'}" />
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </GroupBox>
+
+                <!-- カード一覧 -->
+                <GroupBox Grid.Row="2" Header="所持カード" Margin="5">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBlock Text="カードはまだありません" 
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="Gray"/>
+                    </ScrollViewer>
+                </GroupBox>
+            </Grid>
+        </Grid>
+
+        <!-- アクションパネル -->
+        <Border Grid.Row="2" BorderBrush="DarkGray" BorderThickness="2" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- メッセージエリア -->
+                <ScrollViewer Grid.Column="0" 
+                              VerticalScrollBarVisibility="Auto"
+                              Margin="5">
+                    <TextBlock Text="{Binding CurrentMessage}" 
+                               TextWrapping="Wrap"
+                               FontSize="14"/>
+                </ScrollViewer>
+
+                <!-- アクションボタン -->
+                <StackPanel Grid.Column="1" 
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Button Width="80" Height="60" Margin="5"
+                            Command="{Binding RollDiceCommand}"
+                            IsEnabled="{Binding CanRollDice}">
+                        <StackPanel>
+                            <TextBlock Text="🎲" FontSize="24" HorizontalAlignment="Center"/>
+                            <TextBlock Text="サイコロ" FontSize="12"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Width="80" Height="60" Margin="5"
+                            Command="{Binding EndTurnCommand}"
+                            IsEnabled="{Binding CanEndTurn}">
+                        <StackPanel>
+                            <TextBlock Text="⏩" FontSize="24" HorizontalAlignment="Center"/>
+                            <TextBlock Text="ターン終了" FontSize="12"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

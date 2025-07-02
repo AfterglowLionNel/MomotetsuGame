@@ -1,0 +1,5 @@
+C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\MomotetsuGame.csproj.AssemblyReference.cache
+C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\MomotetsuGame_MarkupCompile.cache
+C:\Users\lions\source\repos\MomotetsuGame\obj\Debug\net6.0-windows\MomotetsuGame_MarkupCompile.lref
