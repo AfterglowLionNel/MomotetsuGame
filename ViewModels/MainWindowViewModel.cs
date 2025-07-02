@@ -11,15 +11,15 @@ namespace MomotetsuGame.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        // ƒvƒ‰ƒCƒx[ƒgƒtƒB[ƒ‹ƒh
+        // ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰
         private int _currentYear = 1;
         private int _currentMonth = 4;
-        private string _destination = "“Œ‹";
-        private string _currentMessage = "ƒQ[ƒ€‚ğŠJn‚µ‚Ä‚­‚¾‚³‚¢";
+        private string _destination = "æ±äº¬";
+        private string _currentMessage = "ã‚²ãƒ¼ãƒ ã‚’é–‹å§‹ã—ã¦ãã ã•ã„";
         private bool _canRollDice = true;
         private bool _canEndTurn = false;
 
-        // ƒvƒƒpƒeƒB
+        // ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
         public ObservableCollection<StationViewModel> Stations { get; set; }
         public ObservableCollection<PlayerViewModel> Players { get; set; }
         public ObservableCollection<PlayerInfoViewModel> PlayerInfos { get; set; }
@@ -60,14 +60,14 @@ namespace MomotetsuGame.ViewModels
             set => SetProperty(ref _canEndTurn, value);
         }
 
-        // ƒRƒ}ƒ“ƒh
+        // ã‚³ãƒãƒ³ãƒ‰
         public ICommand RollDiceCommand { get; private set; }
         public ICommand EndTurnCommand { get; private set; }
         public ICommand SaveGameCommand { get; private set; }
         public ICommand LoadGameCommand { get; private set; }
         public ICommand ShowSettingsCommand { get; private set; }
 
-        // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        // ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         public MainWindowViewModel()
         {
             InitializeCollections();
@@ -93,22 +93,22 @@ namespace MomotetsuGame.ViewModels
 
         private void InitializeSampleData()
         {
-            // ƒTƒ“ƒvƒ‹‰wƒf[ƒ^
-            Stations.Add(new StationViewModel { X = 400, Y = 300, ShortName = "“Œ‹", TypeColor = "#FF0000" });
-            Stations.Add(new StationViewModel { X = 350, Y = 280, ShortName = "Vh", TypeColor = "#00FF00" });
-            Stations.Add(new StationViewModel { X = 450, Y = 320, ShortName = "•iì", TypeColor = "#0000FF" });
-            Stations.Add(new StationViewModel { X = 300, Y = 250, ShortName = "’r‘Ü", TypeColor = "#FFFF00" });
-            Stations.Add(new StationViewModel { X = 500, Y = 350, ShortName = "‰¡•l", TypeColor = "#FF00FF" });
+            // ã‚µãƒ³ãƒ—ãƒ«é§…ãƒ‡ãƒ¼ã‚¿
+            Stations.Add(new StationViewModel { X = 400, Y = 300, ShortName = "æ±äº¬", TypeColor = "#FF0000" });
+            Stations.Add(new StationViewModel { X = 350, Y = 280, ShortName = "æ–°å®¿", TypeColor = "#00FF00" });
+            Stations.Add(new StationViewModel { X = 450, Y = 320, ShortName = "å“å·", TypeColor = "#0000FF" });
+            Stations.Add(new StationViewModel { X = 300, Y = 250, ShortName = "æ± è¢‹", TypeColor = "#FFFF00" });
+            Stations.Add(new StationViewModel { X = 500, Y = 350, ShortName = "æ¨ªæµœ", TypeColor = "#FF00FF" });
 
-            // ƒTƒ“ƒvƒ‹ƒvƒŒƒCƒ„[ƒf[ƒ^
-            Players.Add(new PlayerViewModel { PositionX = 400, PositionY = 300, Name = "ƒvƒŒƒCƒ„[1" });
+            // ã‚µãƒ³ãƒ—ãƒ«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ‡ãƒ¼ã‚¿
+            Players.Add(new PlayerViewModel { PositionX = 400, PositionY = 300, Name = "ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼1" });
 
-            // ƒvƒŒƒCƒ„[î•ñ
+            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æƒ…å ±
             PlayerInfos.Add(new PlayerInfoViewModel
             {
-                Name = "ƒvƒŒƒCƒ„[1",
-                Money = "1‰­‰~",
-                TotalAssets = "1‰­‰~",
+                Name = "ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼1",
+                Money = "1å„„å††",
+                TotalAssets = "1å„„å††",
                 Rank = 1,
                 BorderColor = "#0000FF"
             });
@@ -116,8 +116,8 @@ namespace MomotetsuGame.ViewModels
             PlayerInfos.Add(new PlayerInfoViewModel
             {
                 Name = "COM1",
-                Money = "1‰­‰~",
-                TotalAssets = "1‰­‰~",
+                Money = "1å„„å††",
+                TotalAssets = "1å„„å††",
                 Rank = 2,
                 BorderColor = "#FF0000"
             });
@@ -125,8 +125,8 @@ namespace MomotetsuGame.ViewModels
             PlayerInfos.Add(new PlayerInfoViewModel
             {
                 Name = "COM2",
-                Money = "1‰­‰~",
-                TotalAssets = "1‰­‰~",
+                Money = "1å„„å††",
+                TotalAssets = "1å„„å††",
                 Rank = 3,
                 BorderColor = "#00FF00"
             });
@@ -134,24 +134,24 @@ namespace MomotetsuGame.ViewModels
             PlayerInfos.Add(new PlayerInfoViewModel
             {
                 Name = "COM3",
-                Money = "1‰­‰~",
-                TotalAssets = "1‰­‰~",
+                Money = "1å„„å††",
+                TotalAssets = "1å„„å††",
                 Rank = 4,
                 BorderColor = "#FFFF00"
             });
         }
 
-        // ƒRƒ}ƒ“ƒhƒnƒ“ƒhƒ‰
+        // ã‚³ãƒãƒ³ãƒ‰ãƒãƒ³ãƒ‰ãƒ©
         private void RollDice()
         {
-            CurrentMessage = "ƒTƒCƒRƒ‚ğU‚è‚Ü‚µ‚½I";
+            CurrentMessage = "ã‚µã‚¤ã‚³ãƒ­ã‚’æŒ¯ã‚Šã¾ã—ãŸï¼";
             CanRollDice = false;
             CanEndTurn = true;
         }
 
         private void EndTurn()
         {
-            CurrentMessage = "ƒ^[ƒ“‚ğI—¹‚µ‚Ü‚µ‚½B";
+            CurrentMessage = "ã‚¿ãƒ¼ãƒ³ã‚’çµ‚äº†ã—ã¾ã—ãŸã€‚";
             CanRollDice = true;
             CanEndTurn = false;
             CurrentMonth++;
@@ -164,20 +164,38 @@ namespace MomotetsuGame.ViewModels
 
         private void SaveGame()
         {
-            CurrentMessage = "ƒQ[ƒ€‚ğƒZ[ƒu‚µ‚Ü‚µ‚½B";
+            CurrentMessage = "ã‚²ãƒ¼ãƒ ã‚’ã‚»ãƒ¼ãƒ–ã—ã¾ã—ãŸã€‚";
         }
 
         private void LoadGame()
         {
-            CurrentMessage = "ƒQ[ƒ€‚ğƒ[ƒh‚µ‚Ü‚µ‚½B";
+            CurrentMessage = "ã‚²ãƒ¼ãƒ ã‚’ãƒ­ãƒ¼ãƒ‰ã—ã¾ã—ãŸã€‚";
         }
 
         private void ShowSettings()
         {
-            CurrentMessage = "İ’è‰æ–Ê‚ğŠJ‚«‚Ü‚·B";
+            CurrentMessage = "è¨­å®šç”»é¢ã‚’é–‹ãã¾ã™ã€‚";
         }
 
-        // INotifyPropertyChangedÀ‘•
+        /// <summary>
+        /// Start a new game using the specified settings.
+        /// </summary>
+        public void StartNewGame(GameSettings settings)
+        {
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
+
+            CurrentYear = 1;
+            CurrentMonth = 4;
+            Destination = string.Empty;
+            CurrentMessage = "ã‚²ãƒ¼ãƒ ã‚’é–‹å§‹ã—ã¾ã—ãŸã€‚";
+
+            if (PlayerInfos.Count > 0)
+            {
+                PlayerInfos[0].Name = settings.PlayerName;
+            }
+        }
+
+        // INotifyPropertyChangedå®Ÿè£…
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -194,7 +212,7 @@ namespace MomotetsuGame.ViewModels
         }
     }
 
-    // ‰wViewModel
+    // é§…ViewModel
     public class StationViewModel
     {
         public double X { get; set; }
@@ -203,7 +221,7 @@ namespace MomotetsuGame.ViewModels
         public string TypeColor { get; set; }
     }
 
-    // ƒvƒŒƒCƒ„[ViewModel
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ViewModel
     public class PlayerViewModel
     {
         public double PositionX { get; set; }
@@ -211,7 +229,7 @@ namespace MomotetsuGame.ViewModels
         public string Name { get; set; }
     }
 
-    // ƒvƒŒƒCƒ„[î•ñViewModel
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æƒ…å ±ViewModel
     public class PlayerInfoViewModel
     {
         public string Name { get; set; }
@@ -221,7 +239,7 @@ namespace MomotetsuGame.ViewModels
         public string BorderColor { get; set; }
     }
 
-    // RelayCommandÀ‘•
+    // RelayCommandå®Ÿè£…
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;
